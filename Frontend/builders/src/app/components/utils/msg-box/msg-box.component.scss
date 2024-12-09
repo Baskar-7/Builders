@@ -1,0 +1,36 @@
+
+// Message-box
+.success{
+    background-color: #9fea9e;
+}
+
+.error{
+    background-color: #FF8080;
+}
+
+.info{
+    background-color: #79CFE0;
+}
+
+.message-box{
+    align-self: center;
+    position: fixed;
+    top: -50px;
+    left: 36%;
+    text-align: center;
+    color: #fff;
+    font-family: 'Source Sans Pro', sans-serif;
+    border-radius:.5em;
+    padding:12px;
+    width: 400px;
+    animation: popup 4s ease-in-out;
+    animation-fill-mode: forwards;
+    z-index: 997;
+}
+
+@keyframes popup {
+  0%   {top:10px;opacity: 0;}
+  20%  {top:80px;opacity: 1;}
+  90%  {top:80px;opacity: 1;}
+  100% {top:10px;opacity: 0;}
+}

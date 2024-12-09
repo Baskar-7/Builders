@@ -1,0 +1,99 @@
+<!-- <p>pop-up-service works!</p> -->
+<app-loader [(isLoading)]="isloading"></app-loader>
+<app-msg-box [statusMessage]="statusMessage"></app-msg-box>
+<div class="pop-up slideCTB {{popUpOption}}_pop-up">
+
+    <ng-container *ngIf="this.popUpOption === 'addAmenities'">
+        <h2>Amenities</h2>
+        <div class="inputBox-container">
+            <div class="inputBox">
+                <label for="amenity-search-bar">Search Amenities</label><br>
+                <input id="amenity-search-bar" #locationSearch type="search" placeholder="eg. Gym" autocomplete="off" (input)="this.searchAmenities($event)" />
+            </div>
+        </div>
+        <div  *ngIf="this.localStorage.amenity_details?.length > 0; else emptyBlock" class="container scroll-bar">
+            <div class="amenities  scroll-bar" >
+                <ul *ngFor="let category of this.localStorage.amenity_details"> 
+                    <li><b>{{category.category}}</b></li>
+                    <li *ngFor="let amenity of category.amenities;">
+                        <input #amenitySearch type="checkbox" [checked]="isSelectedAmenity(amenity.amenities_id)"  id="{{'removespaces' | multiCondition : [amenity.amenity]}}" value="{{amenity.amenity}}" (change)="this.handleAmenityInput($event,amenity.amenities_id)"><label for="{{'removespaces' | multiCondition : [amenity.amenity]}}">{{amenity.amenity}}</label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <ng-template #emptyBlock>
+                <h3 id="empty-block">No results found!</h3>
+        </ng-template>
+
+        <div class="flex-box" style="width: 100%;">
+            <button (click)="this.closeWindow()"  class="close-btn">Done<span style="padding-left: 2px;">&#10003;</span></button>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="this.popUpOption === 'locations'">
+        <h2>Cities</h2>
+        <div class="inputBox-container">
+            <div class="inputBox">
+                <label for="location-search-bar">Search Cities</label><br>
+                <input #locationSearch id="location-search-bar" type="search" placeholder="eg. Chennai" autocomplete="off" (input)="this.searchCities($event)" />
+            </div>
+        </div>
+        <div  *ngIf="this.localStorage.location_details?.locations?.length > 0; else emptyBlock" class="container scroll-bar">
+            <div class="locations  scroll-bar">
+                <ul> 
+                    <li *ngFor="let location of this.localStorage.location_details.locations" (click)="handleAction('changeLocation',location.district)" (click)="this.closeWindow()">
+                       {{location.district}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <ng-template #emptyBlock>
+                <h3 id="empty-block">No results found!</h3>
+        </ng-template>
+
+        <div class="flex-box" style="width: 100%;">
+            <button (click)="this.closeWindow()" class="close-btn">Done<span style="padding-left: 2px;">&#10003;</span></button>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="this.popUpOption === 'addReview'">
+        <h2 style="text-decoration: underline;">Share Your Thoughts</h2>
+        <form [formGroup]="formGroup" class="add-review-form flex-box" (submit)="addReview($event)">
+            <i class="fa-solid fa-xmark" style="position: absolute;right: 10px;top: 0px;" (click)="this.closeWindow()"></i>
+            <div class="profile-pic-container">
+                <label class="-label" for="file">
+                    <span class="fa-solid fa-camera" style="color:#eae2e2;"></span>
+                    <span>Change Image</span>
+                </label> 
+                <input id="file" type="file" accept=".jpg, .jpeg, .png" (change)="this.updateProfilePic($event)" />
+                <img id="review-user-pic" [src]="'assets/icons/default_profile.jpeg' " alt="Profile Image" class="profile-image">
+            </div>
+            <div class="inputBox"> 
+                <input type="text" id="name" formControlName="author"  placeholder="Name" autocomplete="off"> 
+            </div> 
+            <div class="inputBox">
+                <textarea id="review_quote"  placeholder="Write your review here..." formControlName="quote" rows="4" cols="50"> </textarea>
+                <div *ngIf="formGroup.get('quote')?.invalid && (formGroup.get('quote')?.touched || formGroup.get('quote')?.dirty)" class="invalid-feedback">
+                    <span *ngIf="formGroup.get('quote')?.errors?.['minWords']"> 
+                        Minimum {{ formGroup.get('quote')?.errors?.['minWords']?.['required'] }} words required. 
+                        Maximum {{ formGroup.get('quote')?.errors?.['maxWords']?.['required'] }} words limit.
+                        Current: {{formGroup.get('quote')?.errors?.['minWords']?.['actual'] }} words.
+                    </span>
+                </div>
+            </div>
+            <button *ngIf="formGroup.valid" class="close-btn">Add Review</button>
+        </form>
+    </ng-container>
+
+    <ng-container  *ngIf="this.popUpOption === 'getLocation'"> 
+        <div id="map" style="width: 100%;height: 80%;"></div>
+        <div class="flex-box" style="width: 100%;margin: 5px;">
+            <button class="confirm-btn-red" (click)="this.closeWindow()">Close Window ✗</button>
+            <button class="close-btn" *ngIf="formGroup.valid" (click)="this.closeWindow()" (click)="this.handleAction('selectLocation',formGroup.value)">Confirm Location<span style="padding-left: 2px;">&#10003;</span></button>
+        </div>
+        
+    </ng-container>
+
+</div>

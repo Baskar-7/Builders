@@ -1,0 +1,7 @@
+<!-- <p>msg-box works!</p> -->
+<ng-container  *ngIf="msgBox.show">
+    <div id="msg-box" class="message-box {{msgBox.status}}">
+        <i id="success" [class]="iconClass" aria-hidden="true"></i>
+        <span class="message"> {{msgBox.msg}}</span>
+    </div>
+</ng-container>

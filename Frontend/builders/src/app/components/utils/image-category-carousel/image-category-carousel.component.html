@@ -1,0 +1,33 @@
+<!-- <p>image-category-carousel works!</p> -->
+
+<section class="carousel-container">
+    <div class="category-list">
+        <button *ngFor="let floorPlan of categoryDetails; index as id" class="ctybtn_{{label}}" (click)="viewCategory($event,floorPlan)" [attr.selected-blueprint]="selectedCategory.id === floorPlan.id">{{floorPlan.categoryType}}</button>
+        <div *ngIf="canCustomize" class="upload-images-btn">
+            <label for="upload_category_{{label}}"><i class="fa-solid fa-cloud-arrow-up"></i>Add {{label}}<input id="upload_category_{{label}}" type="file" (change)="addCategory($event,'temporaryStorage')" accept="image/*" multiple  style="display: none;" width="10px"/></label>
+        </div>
+    </div>
+
+    <div class="slider">
+        <app-image-slider *ngIf="categoryDetails.length > 0" style="width: 100%;" [label]="label" [canCustomize]="canCustomize" [(slideImages)]="selectedCategory.images" (handleActions)="handleImageSliderActions($event)" ></app-image-slider>
+    </div>
+</section>
+
+    <ng-container *ngIf="preview.length > 0">
+        <div class="preview-category-window" id="draggable-container">
+            <app-image-slider  [canCustomize]="true" [label]="label" [(slideImages)]="preview"></app-image-slider>
+            <section  >
+                <button class="confirm-btn-red" type="button" (click)="closePreview()" >Cancel</button>
+                <div class="category-type-list dropdown" >
+                    <div class="select" (click)="this.toggleDropdown('category-type-list','open')" >
+                        <span class="text-wrap" id="selected_category_{{label}}">Select Category</span>
+                        <i class="fa-solid fa-caret-down"></i>
+                    </div>
+                    <ul class="dropdown-menu scroll-bar" (mouseleave)="toggleDropdown('category-type-list','close')">
+                        <li *ngFor="let filter of filterContent" (click)="selectFilter($event,filter)">{{filter.category}}</li>
+                    </ul>
+                </div>
+                <button class="confirm-btn-green confirm-category-option" type="submit" style="display: none;" (click)="addCategory($event,'actualStorage')">Save</button>
+            </section> 
+        </div>
+    </ng-container>

@@ -1,0 +1,207 @@
+*{
+    box-sizing: border-box;
+}
+  
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+@mixin flex-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+.profile-container {
+  user-select: none;
+    background-color: rgb(192 251 243 / 60%);
+    overflow: hidden;
+    height:100vh;
+
+    .side-panel.shrink{
+        width: 60px;
+        height:100vh;
+        .profile label,.profile input,.profile-name,.navigation .nav-links span{
+            display: none;
+        }
+        .profile{
+          margin-top: 50px;
+           img{
+            width: 30px;
+            height: 30px; 
+          }
+        }
+        .navigation .nav-links a{
+          justify-content: center;
+          text-align: center;
+          i{
+              padding: 0px;
+          }
+        }
+    }
+
+    .side-panel.expand{
+        .menu-icon:hover {
+            span {
+                &:nth-child(1) {
+                transform: rotate(45deg) translateY(7px);
+                }
+        
+                &:nth-child(2) {
+                opacity: 0;
+                }
+        
+                &:nth-child(3) {
+                transform: rotate(-45deg) translateY(-7px);
+                }
+            }
+        }
+    }
+    .side-panel {
+        width: 300px;
+        z-index: 5;
+        height: 100vh;
+        position: absolute;
+        background-image: linear-gradient(to right, #030303, #2b2f34)!important;
+        color: #fff;
+        transition: all 0.4s ease;
+    }
+    .content
+    {
+        width: 100%;
+        z-index: 4;
+        position: relative;
+        flex: 1;
+        .content-area{
+          width: 100vw;
+          height: 100vh;
+          /* background-image: url(/assets/bg/profile_bg.jpg); */
+          background-size: 100% 100%;
+          background-repeat: no-repeat;
+          background-position: center;
+          padding: 20px;
+          padding-left: 80px;
+          background-image: linear-gradient(to right bottom, #32d5d5, #00c5d8, #00b3d8, #00a2d4, #008fcc, #1f89c7, #2e83c2, #397dbc, #4382bc, #4d87bc, #578cbc, #6091bc);
+        }
+    
+        .content-header{
+            display: flex;
+            flex-direction: row;
+            margin-top: 0;
+            background-image: linear-gradient(to left, rgb(43 47 52 / 93%), #030303) !important;
+            height: 80px;
+            color: #fff;
+            .page-title {
+                font-size: 24px;
+                width: 100%;
+                @include flex-center;
+            }
+        }
+    }
+}
+
+.menu-btn{
+    padding: 20px;
+    display: flex;
+    justify-content: flex-end;
+
+    .menu-icon {
+        width: 20px;
+        height: 20px;
+        position: relative;
+        cursor: pointer;
+        padding: 1px;
+        span {
+            display: block;
+            width: 100%;
+            height: 3px;
+            background-color: #fff;
+            margin: 2px 0;
+            transition: all 0.3s ease;
+        }
+    }
+}
+  
+.nav-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  
+    li {
+        border-bottom: 1px solid rgb(49, 48, 48);
+        &:last-child {
+          margin-bottom: 0px;
+        }
+
+        a {
+          // display: block;  
+          display: flex;
+          align-items: center;
+          padding: 10px;
+          text-decoration: none;
+          padding-left: 10px;
+          color: #656464;
+          transition: background-color 0.3s ease;
+
+          span{
+            padding-left: 10px;
+          }
+          
+          &:hover {
+            text-decoration: none;
+            color: #f5f0f0;
+            background-image: linear-gradient(to right, #101010, #31363a);
+            i{
+             animation: swing ease-in-out 0.5s 1 alternate;
+            }
+          }
+        }
+
+        .active-tab {
+          color: #f5f0f0;
+          background-image: linear-gradient(to right, #101010, #31363a);
+        }
+    }
+  }
+  
+  .app-logo{
+    padding: 20px;
+    padding-bottom: 35px;text-align: center;
+  }
+
+  
+  .profile-name {
+    margin-top: 5px;
+    text-align: center;
+    font-size: 18px;
+    color: #c3c1c1;
+}
+
+//slide from right to left(at left position)
+.slideRTL{
+  animation: ctl 0.25s ease-out forwards;
+}   
+//close to left
+@keyframes ctl 
+{ 
+  0% {left:0px; }
+  100%{left:-24%;}
+}
+
+//slide from left to right(at left Position)
+.slideLTR{
+  animation: otr 0.25s ease-out forwards;
+}   
+//open to right
+@keyframes otr
+{
+  0%   {left:-24%;}
+  100% {left:0px;}
+}
+
+
+@media (max-width: 480px) {
+    .profile-container .side-panel{ width: 200px;}
+}

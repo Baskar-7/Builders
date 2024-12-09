@@ -1,0 +1,107 @@
+<!-- <p>projects works!</p> -->
+
+<app-msg-box [statusMessage]="statusMessage" ></app-msg-box>
+<app-pop-up-service [(showPopup)]="project_details.showAmenities" [popUpOption]="'addAmenities'" (handleActions)="handlePopUpActions($event)" [(results)]="project_details.filters.amenities"></app-pop-up-service>
+<app-pop-up-service [(showPopup)]="project_details.showLocations" [popUpOption]="'locations'" (handleActions)="handlePopUpActions($event)"></app-pop-up-service>
+<div class="project-container">
+    <div class="title">
+      <h1>SGS CONSTRUCTIONS</h1>
+      <p>Your Trusted Partner in Construction and Development</p>
+    </div>
+    <section class="filters">
+      <ul class="filter-list">
+        <li class="flex-box" (click)="this.togglePopup('locations')"><i class="fa-solid fa-earth-americas"></i>{{project_details.location}}</li>
+        <li class="flex-box" (click)="this.toggleObserver(true)" (click)="this.toggleClass('filter-container','slide_showFilter','slide_hideFilter','open')"><i class="fa-solid fa-filter"></i>Filters</li>
+        <li class="flex-box" id="apply-changes-btn" style="display: none;" (click)="this.applyFilters()"><i class="fa-solid fa-arrows-rotate"></i>Apply Changes</li>
+        <ng-container *ngFor="let filters of project_details.filters | keyvalue">
+          <li  class="flex-box" *ngFor="let filter of filters.value" (click)="this.selectFilter($event,filters.key,filter.amenity ? filter.id : 0)">
+            <ng-container *ngIf="this.isString(filter); else showObject">
+              {{ filter }}
+            </ng-container>
+            <ng-template #showObject>
+              {{ filter.amenity}}
+            </ng-template>
+          </li>
+        </ng-container>
+      </ul>
+    </section>
+
+    <section class="container" >
+      <div class="nav-slider">
+        <div *ngIf="checkOverflow" id="backward-arrow"  (click)="scrollBy('backwards','projects')">
+          <i class="fa-solid fa-arrow-left"></i>
+        </div>
+      </div>
+      <div id="projects" class="projects scroll-bar">
+        <ng-container *ngFor="let project of project_details.projects">
+          <div class="project">
+            <section class="banner">
+              <img alt={{project.project_name}} src="data:image/png;base64,{{project.elevation_poster}}" loading="lazy" alt="Lazy Loaded Image">
+            </section>
+            <section class="details">
+              <h4>{{project.project_name}}</h4>
+              <div class="detail-item"><i class="fa-solid fa-location-dot"></i><span>{{project.landmark}}</span></div>
+              <div class="detail-item"><i class="fa-solid fa-ruler-combined"></i><span>Range <ng-container *ngIf="project.min_built_area != project.max_built_area ; else maxRange">{{project.min_built_area}} - {{project.max_built_area}}</ng-container><ng-template #maxRange>{{project.max_built_area}}</ng-template> sq.ft.</span></div>
+              <div class="detail-item"><i class="fa-solid fa-indian-rupee-sign"></i><span>Price Starts at {{"price" | multiCondition : [project.min_price]}}</span></div>
+              <div class="detail-item details-link" routerLink="/project-details" [queryParams]="{ projectId: project.project_id}"><i class="fa-solid fa-circle-info"></i><span style="color: #2d557d;;">View Details</span></div>
+            </section>
+          </div>
+        </ng-container>
+      </div>
+        <div class="nav-slider">
+          <div *ngIf="checkOverflow" id="forward-arrow" (click)="scrollBy('forward','projects')">
+            <i class="fa-solid fa-arrow-right"></i>
+          </div>
+        </div>
+    </section>
+    <div class="empty-container flex-box" *ngIf="project_details.projects.length === 0" >
+      <img src="assets/icons/no_result.png">
+    </div>
+  </div>
+
+  <div class="filter-container slide_hideFilter">
+    <h3 style="text-align: center;">All Filters</h3>
+    <div class="filter scroll-bar">
+      <section class="filter-box">
+        <h4>Amenities</h4>
+        <ul class="filters">
+          <li class="flex-box" (click)="this.togglePopup('amenities')"><i class="fa-solid fa-square-plus" ></i>add</li>
+          <li class="flex-box selected" id="{{amenity.id}}" *ngFor="let amenity of project_details.filters.amenities" (click)="this.selectFilter($event,'amenities',amenity.id)">{{amenity.amenity}}</li>
+        </ul>
+      </section>
+
+      <section class="filter-box">
+        <h4>Residence Type</h4>
+        <ul class="filters" (click)="this.selectFilter($event,'projectType',0)">
+          <li class="flex-box" [ngClass]="{'selected': project_details.filters.projectType.includes('Villa')}">Villa</li>
+          <li class="flex-box" [ngClass]="{'selected': project_details.filters.projectType.includes('Apartment')}">Apartment</li>
+          <li class="flex-box" [ngClass]="{'selected': project_details.filters.projectType.includes('Studio Apartment')}">Studio Apartment</li>
+          <li class="flex-box" [ngClass]="{'selected': project_details.filters.projectType.includes('Duplex')}">Duplex</li>
+          <li class="flex-box" [ngClass]="{'selected': project_details.filters.projectType.includes('Triplex')}">Triplex</li>
+          <li class="flex-box" [ngClass]="{'selected': project_details.filters.projectType.includes('Townhouse')}">Townhouse</li>
+          <li class="flex-box" [ngClass]="{'selected': project_details.filters.projectType.includes('Penthouse')}">Penthouse</li>
+          <li class="flex-box" [ngClass]="{'selected': project_details.filters.projectType.includes('Loft')}">Loft</li>
+        </ul>
+      </section>
+
+      <section class="filter-box">
+        <h4>Price Range</h4>
+        <ul class="filters" (click)="this.selectFilter($event,'priceRange',0)">
+          <li class="flex-box" [ngClass]="{'selected': project_details.filters.priceRange.includes('Below 10L')}">Below 10L</li>
+          <li class="flex-box" [ngClass]="{'selected': project_details.filters.priceRange.includes('10L - 50L')}">10L - 50L</li>
+          <li class="flex-box" [ngClass]="{'selected': project_details.filters.priceRange.includes('50L - 1Cr')}">50L - 1Cr</li>
+          <li class="flex-box" [ngClass]="{'selected': project_details.filters.priceRange.includes('1Cr - 10Cr')}">1Cr - 10Cr</li> 
+          <li class="flex-box" [ngClass]="{'selected': project_details.filters.priceRange.includes('10Cr & above')}">10Cr & above</li> 
+        </ul>
+      </section>
+    </div>
+    <div class="icon" (click)="this.toggleObserver(false)" (click)="this.toggleClass('filter-container','slide_showFilter','slide_hideFilter','close')">
+      <i class="fa-solid fa-arrow-down-short-wide fa-rotate-90"></i>
+    </div>
+
+    <div class="btn-block">
+      <button type="submit" class="confirm-btn-red" (click)="this.clearAllFilters()">Clear All</button>
+      <button type="submit" class="confirm-btn-green" (click)="this.applyFilters()">Apply</button>
+    </div>
+
+  </div>

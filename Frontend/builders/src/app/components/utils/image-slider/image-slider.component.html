@@ -1,0 +1,28 @@
+<!-- <p>image-slider works!</p> -->
+
+<div class="image-slider" (keydown)="onKeyDown($event)" tabindex="0" *ngIf="slideImages && slideImages.length != 0">
+    <section class="slider_content">
+        <div *ngIf="slideImages.length > 1" class="slider-arrows">
+              <span><i  id="backward-arrow" class="fa-solid fa-arrow-left" (click)="this.handleSliderAction($event,'prev')"></i></span>
+              <span><i id="forward-arrow" class="fa-solid fa-arrow-right" (click)="this.handleSliderAction($event,'next')"></i></span>
+        </div>
+        <main class="image-display">
+            <img id="displayImg_{{label}}" class="thumbnail"  [src]="'createObjectURL' | multiCondition : [slideImages[0]]" alt="Thumbnail" />
+        </main>
+        <div *ngIf="canCustomize" class="actions">
+            <label for="insertImages_{{label}}">
+                <i class="fa-solid fa-plus"></i>
+                <input  type="file" id="insertImages_{{label}}" accept=".jpg,.png,.jpeg" (change)="insertImages($event)" style="display: none;" multiple />
+            </label>
+            <i class="fa-regular fa-trash-can" (click)="removeImage()"></i>
+        </div>
+    </section>
+    <nav class="slider-navigation" #sliderNavigation *ngIf="slideImages.length > 1">
+        <button *ngFor="let images of slideImages; index as i" class="nav-button navBtn_{{label}}" [attr.aria-selected]="currentSlideIndex === i ? 'true' : 'false'"  (click)="showSlide($event,i)">
+            <img class="thumbnail" [src]="'createObjectURL' | multiCondition : [images]" alt="Thumbnail {{i}}" />
+        </button>
+    </nav>
+</div>
+<div *ngIf="caption.length > 0" class="caption"> 
+    <span>{{caption}}</span>
+</div>

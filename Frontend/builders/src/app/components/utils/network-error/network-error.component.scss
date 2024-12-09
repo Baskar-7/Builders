@@ -1,0 +1,16 @@
+.network-error{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    flex-direction: column;
+
+    i{
+      color: #4e4e4e;
+      font-size: 45px;
+    }
+
+    #retry i{
+      font-size: 15px;
+    }
+}

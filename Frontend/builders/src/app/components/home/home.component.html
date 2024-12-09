@@ -1,0 +1,229 @@
+<!-- <p>home works!</p> -->
+
+
+<app-login-module [(isOpen)]="isLoginOpen"></app-login-module>
+<app-loader [(isLoading)]="isLoading"></app-loader>
+<app-msg-box [statusMessage]="statusMessage"></app-msg-box>
+
+<a (click)="this.externalLink('https://wa.me/9080740652?text=Hello!%20I%20would%20like%20to%20know%20more.')" id="whatsapp" class="btn-whatsapp-pulse">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<header>
+    <div>
+      <nav class="header">
+        <a  [ngClass]="{'active':  (0 === utils.currentIndex) || (-1 === utils.currentIndex)}" (click)="scrollTo(0)">Home </a>
+        <a [ngClass]="{'active': 1 === utils.currentIndex}" (click)="scrollTo(1)">Services</a>
+        <a [ngClass]="{'active': 2 === utils.currentIndex}" (click)="scrollTo(2)">Projects</a>
+        <a [ngClass]="{'active': 3 === utils.currentIndex}" (click)="scrollTo(3)">About</a>
+        <a [ngClass]="{'active': 4 === utils.currentIndex}" (click)="scrollTo(4)">Contact Us</a>
+      </nav>
+    </div>
+
+    <ng-container *ngIf="firebaseService.isAuthenticated; else elseBlock">
+      <a routerLink="/profile/profile-details">
+        <img [src]="firebaseService.userPicture || 'assets/icons/profile.png'" alt="profile" onerror="this.onerror=null; this.src='assets/icons/profile.png';" style="width: 50px;height: 50px; border: 1px solid #393838; border-radius: 100px;">
+      </a>
+    </ng-container>
+      
+    <ng-template #elseBlock>
+      <div (click)="toggleContainer('login-container','slidetoTop')">
+          Login <i class="fa-solid fa-right-to-bracket"></i>
+      </div>
+    </ng-template> 
+</header>
+
+  <section class="first page-content">
+    <div class="outer">
+      <div class="inner">
+        <div class="bg">
+          <div class="intro content">
+            <div class="intro-slideshow">
+              <img src="assets/bg/bg1.webp">
+              <img src="assets/bg/bg2.avif">
+              <img src="assets/bg/bg3.avif">
+              <img src="assets/bg/bg4.avif">
+              <img src="assets/bg/bg5.avif">
+              <img src="assets/bg/bg6.avif">
+              <img src="assets/bg/bg7.avif">
+              <img src="assets/bg/bg8.avif">
+              <img src="assets/bg/bg9.avif">
+              <img src="assets/bg/bg10.avif">
+            </div>
+            <div class="intro-header">
+              <div class="logo"><img src="assets/bg/logo.webp"/><h2>SGS Contructions</h2><h3 id="quote"></h3></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="second page-content">
+    <div class="outer">
+      <div class="inner">
+        <div class="bg">
+           <div class="services" style="margin-top: 0;overflow: hidden;">
+              
+               <app-slider-form></app-slider-form>
+           </div> 
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="third page-content">
+    <div class="outer">
+      <div class="inner">
+        <div class="bg">
+            <app-projects></app-projects>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="fourth page-content">
+    <div class="outer">
+      <div class="inner">
+        <div class="bg">
+          <div class="about-us scroll-bar content">
+            <app-pop-up-service [(showPopup)]="showReviewPopup" [popUpOption]="'addReview'" (handleActions)="this.handleActions($event)"></app-pop-up-service>
+              <div class="title">
+                <h1>SGS CONSTRUCTIONS</h1>
+                <p>Your Trusted Partner in Construction and Development</p>
+              </div>
+            
+              <div class="section">
+                <h2>Who We Are</h2>
+                <p>
+                  At <strong>SGS CONSTRUCTIONS</strong>, we are passionate about transforming visions into 
+                  remarkable realities. With 10+ years of experience, we specialize in building high-quality 
+                  residential, commercial, and industrial projects that stand the test of time.
+                  Our commitment to excellence is evident in every brick we lay and every structure we craft. We take pride in our ability to combine innovative designs, sustainable practices, and state-of-the-art technology to deliver projects that exceed expectations.
+                </p>
+                <p>
+                    At <strong>SGS CONSTRUCTIONS</strong>, customer satisfaction is our top priority. We work closely with clients, ensuring that each project reflects their unique aspirations and values. Trust us to build not just structures, but enduring relationships and a legacy of trust.
+                </p>
+              </div>
+            
+              <div class="section">
+                <h2>Why Choose Us?</h2>
+                <div class="values">
+                  <div class="value">
+                    <h3>Quality</h3>
+                    <p>We prioritize excellence in every project, ensuring durable and beautiful results.</p>
+                  </div>
+                  <div class="value">
+                    <h3>Innovation</h3>
+                    <p>By embracing modern techniques and sustainable practices, we stay ahead in the industry.</p>
+                  </div>
+                  <div class="value">
+                    <h3>Trust</h3>
+                    <p>Transparency and integrity guide us in building lasting relationships with our clients.</p>
+                  </div>
+                </div>
+              </div>
+             
+              <div class="section reviews">
+                <h2>What Our Clients Say</h2>
+                <div class="reviews-slider flex-box"><span (click)="this.startReviewSlides(-1)">❮</span>
+                  <div class="container flex-box">
+                    <div class="review" *ngFor="let review of reviews; let i = index">
+                      <!-- <img src="https://5.imimg.com/data5/SELLER/Default/2024/1/379648811/YQ/OU/LZ/19476452/apartment-exterior-designing-service.jpg" alt="image"> -->
+                       <img src="data:image/png;base64,{{review.reviewerpic}}" alt="profile-pic"/>
+                      <p class="quote">"{{ review.quote }}"</p>
+                      <p class="author">- {{ review.author }}</p>
+                    </div>
+                    <div class="review" *ngIf="reviews.length == 0">
+                      <p class="quote">No Reviews Yet!.. Be the first one to be </p>
+                      <div class="flex-box write-review-btn"><h4 class="flex-box" style="color: #2c3e50;" (click)="this.togglePopup()"><i class="fa-solid fa-pen-to-square"></i>Write your’s</h4></div>
+                    </div> 
+                  </div><span (click)="this.startReviewSlides(1)">❯</span>
+                </div>
+                <div class="flex-box write-review-btn" *ngIf="reviews.length > 0"><h4 class="flex-box" style="color: #2c3e50;" (click)="this.togglePopup()"><i class="fa-solid fa-pen-to-square"></i>Write your’s</h4></div>
+              </div>
+             
+              <div class="cta">
+                <h2>Lets Build Your Dream Together</h2>
+                <button (click)="this.scrollTo(4)" class="btn">Contact Us</button>
+              </div>
+          </div>
+        </div> 
+      </div>
+    </div>
+  </section>
+  <section class="fifth page-content">
+    <div class="outer">
+      <div class="inner">
+        <div class="bg">
+          <div class="contact-us scroll-bar content hide-scrollbar" style="padding: 0px;">
+            <div class="title">
+              <h1>SGS CONSTRUCTIONS</h1>
+              <p>Your Trusted Partner in Construction and Development</p>
+            </div>
+            
+            <div class="container">
+              <section class="call-back-form">
+                <h2>Contact Us</h2>
+                <form  [formGroup]="callBackForm" (ngSubmit)="this.addNewCallBackReq($event)">
+                  <p>HI, I'M INTERESTED IN YOUR PROJECTS!</p>
+                  <div class="inputBox-container">
+                    <div class="inputBox">
+                      <label for="name">Name</label><br>
+                      <input id="name" formControlName="name" type="text" autocomplete="off">
+                      <div *ngIf="callBackForm.get('name')?.invalid && (callBackForm.get('name')?.dirty || callBackForm.get('name')?.touched)" class="invalid-feedback">
+                        <span *ngIf="callBackForm.get('name')?.errors?.['required']">Mobile number is required.</span> 
+                      </div>
+                    </div>
+                    <div class="inputBox">
+                      <label for="mail">Mail</label><br>
+                      <input id="mail" formControlName="mail" type="text" autocomplete="off">
+                      <div *ngIf="callBackForm.get('mail')?.invalid && (callBackForm.get('mail')?.dirty || callBackForm.get('mail')?.touched)" class="invalid-feedback">
+                          <span *ngIf="callBackForm.get('mail')?.errors?.['required']">Email is required.</span>
+                          <span *ngIf="callBackForm.get('mail')?.errors?.['email']">Enter a valid Email Address</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="inputBox-container">
+                    <div class="inputBox">
+                      <label for="mobile">Mobile</label><br>
+                      <input id="mobile" formControlName="mobile" type="number"  autocomplete="off">
+                      <div *ngIf="callBackForm.get('mobile')?.invalid && (callBackForm.get('mobile')?.dirty || callBackForm.get('mobile')?.touched)" class="invalid-feedback">
+                        <span *ngIf="callBackForm.get('mobile')?.errors?.['required']">Mobile number is required.</span>
+                        <span *ngIf="callBackForm.get('mobile')?.errors?.['pattern']">Mobile number must be 10 digits.</span>
+                      </div>
+                    </div>
+                    <div class="inputBox">
+                      <label for="time">Choose a Callback Time</label><br>
+
+                      <div class="flex-box">
+                         <select formControlName="beforeOrAfter" class="border-right-radius-none" style="border-right: none;">
+                            <option value="Before" selected>Before</option>
+                            <option value="After">After</option>
+                         </select>
+                        <input id="time" formControlName="time" type="time" class="border-left-radius-none">
+                      </div>
+                      <div *ngIf="callBackForm.get('time')?.invalid && (callBackForm.get('time')?.dirty || callBackForm.get('time')?.touched)" class="invalid-feedback">
+                        <span *ngIf="callBackForm.get('time')?.errors?.['required']">Time is required.</span> 
+                      </div>
+                    </div>
+                  </div>
+                  <div class="btn-block">
+                      <button class="confirm-btn-green">Submit</button>
+                  </div>
+                </form>
+
+              </section>
+              <section class="map-container" (wheel)="stopScrollPropagation($event)"> 
+                <h2>Locate Us</h2>
+                <div #gmaps id="gmap" style="height: 85%;width: 100%;position: relative;overflow: hidden;border-radius: 10px;"></div>
+              </section>
+            </div>
+             
+            <div class="footers">
+              <app-footer (handleActions)="handleActions($event)"></app-footer>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

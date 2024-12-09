@@ -1,0 +1,33 @@
+<!-- <p>manage-details works!</p> -->
+<app-loader [(isLoading)]="isloading" ></app-loader>
+<app-msg-box [statusMessage]="statusMessage"></app-msg-box>
+<div class="manage-details">
+    <nav>
+        <ul class="titles flex-box">
+          <li class="title" [ngClass]="{'selected-nav': selectedContent === 'projects'}" (click)="(selectedContent!='projects') && (selectedContent = 'projects') && toggleContents()">
+            <span class="border-left-radius">Projects</span>
+            <span class="border-left-radius">Projects</span>
+          </li>
+          <li class="title " [ngClass]="{'selected-nav': selectedContent === 'services'}" (click)="(selectedContent!='services') && (selectedContent = 'services') && toggleContents()">
+            <span>Services</span>
+            <span>Services</span>
+          </li>
+          <li class="title" [ngClass]="{'selected-nav': selectedContent === 'enquires'}" (click)="(selectedContent!='enquires') && (selectedContent = 'enquires') && toggleContents()">
+            <span>Enquiries</span>
+            <span>Enquiries</span>
+          </li>
+          <li class="title " [ngClass]="{'selected-nav': selectedContent === 'callbacks'}" (click)="(selectedContent!='callbacks') && (selectedContent = 'callbacks') && toggleContents()">
+            <span>Callbacks</span>
+            <span>Callbacks</span>
+          </li>
+          <li class="title" [ngClass]="{'selected-nav': selectedContent === 'reviews'}" (click)="(selectedContent!='reviews') && (selectedContent = 'reviews') && toggleContents()">
+            <span class="border-right-radius">Reviews</span>
+            <span class="border-right-radius">Reviews</span>
+          </li>
+        </ul>
+      </nav>
+    
+    <section class="contents">
+        <app-table [layout]="selectedDetails.layout" [(content)]="selectedDetails.content" style="color: #433f3f;" (handleActions)="handleTableActions($event)"></app-table>
+    </section>
+</div>

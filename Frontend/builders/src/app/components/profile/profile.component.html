@@ -1,0 +1,87 @@
+<!-- <p>profile works!</p> -->
+<app-msg-box [statusMessage]="statusMessage" ></app-msg-box>
+<app-loader [isLoading]="isLoading"></app-loader>
+<div class="profile-container ">
+
+    <div class="side-panel shrink">
+      <div class="menu-btn ">
+            <div  class="menu-icon" (click)="toggleContainer('side-panel')">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+      </div>
+
+      <div class="profile">
+
+        <div class="profile-pic-container">
+          <label class="-label" for="file">
+              <span class="fa-solid fa-camera" style="color:#eae2e2;"></span>
+              <span>Change Image</span>
+          </label> 
+          <input id="file" type="file" accept=".jpg, .jpeg, .png" (change)="this.updateProfilePic($event)" />
+          <img [src]="firebase.userPicture ?  'data:image/png;base64,'+firebase.userPicture : 'assets/icons/default_profile.jpeg' "  alt="Profile Image" class="profile-image">
+        </div>
+
+        <h2 class="profile-name">
+          {{firebase.userFName || 'Guest'}}
+        </h2>
+
+        <nav class="navigation">
+          <ul class="nav-links">
+              <li>
+                <a  routerLink="../home">
+                <i class="fa-solid fa-house"></i>  
+                <span>Home</span>
+                </a>
+              </li>
+
+              <li (click)="this.setActiveTab()">
+                <a routerLink="profile-details" [ngClass]="{'active-tab' : activeTab === 'Profile'}">  
+                  <i class="fa-solid fa-user"></i> 
+                  <span>Profile</span>
+                </a>
+              </li>
+
+              @if(firebase.userType === 'ADMIN'){
+                <li class="hover-list" (click)="setActiveTab()">
+                  <a routerLink="add-project" [ngClass]="{'active-tab': activeTab === 'New-Projects'}">  
+                      <i class="fas fa-folder-plus"></i>
+                      <span>Add Projects</span>
+                  </a>
+              </li> 
+                          
+
+                <li (click)="this.setActiveTab()" >
+                  <a routerLink="manage-details"  [ngClass]="{'active-tab' : activeTab === 'Manage-details'}">  
+                    <i class="fa-solid fa-bars-progress"></i>
+                    <span>Manage Details</span>
+                  </a>
+              </li>
+              }
+
+              <li   (click)="this.invalidateSession()">
+                  <a>
+                      <i class="fa-solid fa-right-from-bracket"></i>  <span>Logout</span>
+                  </a>
+              </li>           
+
+          </ul>
+        </nav>
+      </div>
+    </div>
+    
+    <div class="content">
+
+        <div class="content-header">
+            <h1 class="page-title">
+                <span>SGS CONSTRUCTIONS</span>
+            </h1>
+        </div>
+     
+       <div class="content-area">
+            <router-outlet></router-outlet>
+       </div>
+    </div>
+  </div>
+

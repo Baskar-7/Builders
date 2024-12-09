@@ -1,0 +1,117 @@
+<!-- <p>profile-details works!</p> -->
+
+<app-loader [(isLoading)]="isLoading" ></app-loader>
+<app-msg-box [statusMessage]="statusMessage" ></app-msg-box>
+<app-pop-up-service [(showPopup)]="showLocations" [popUpOption]="'getLocation'" (handleActions)="handlePopupServiceActions($event)"></app-pop-up-service>
+<div class="profile-details">
+  <form class="Personal_details" [formGroup]="personal_details" (submit)="this.updateUserDetails($event)">
+    <h2 style="padding-left: 20px;"> <i class="fa-solid fa-id-card"></i> Personal Details </h2>
+    <div class="edit-btn" (click)="this.toggleEdit('Personal_details')"><i class="fa-regular fa-pen-to-square"></i></div>
+    
+    <div class="containers scroll-bar">
+
+      <div class="inputBox-container">
+        <div class="inputBox">
+          <label for="fname"><i class="fa-solid fa-user-tie"></i>Name</label><br>
+          <input type="text" id="fname" autocomplete="off"  placeholder="first" formControlName="fname" />
+          
+          <div *ngIf="personal_details.get('fname')?.invalid && ( personal_details.get('fname')?.dirty || personal_details.get('fname')?.touched )" class="invalid-feedback">
+            <span *ngIf="personal_details.get('fname')?.errors?.['required']">First Name is required.</span>
+          </div>
+
+        </div>
+        <div class="inputBox">
+          <label for="lname" ><i class="fa-solid fa-user-tie" style="visibility: hidden;"></i></label><br>
+          <input type="text" id="lname" autocomplete="off"   placeholder="last" formControlName="lname" />
+
+          <div *ngIf="personal_details.get('lname')?.invalid && ( personal_details.get('lname')?.dirty || personal_details.get('lname')?.touched )" class="invalid-feedback">
+            <span *ngIf="personal_details.get('lname')?.errors?.['required']">Last Name is required.</span>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="inputBox-container">
+
+        <div class="inputBox">
+          <label for="mail"><i class="fa-solid fa-envelope"></i> Email</label><br>
+          <input type="text" id="mail" autocomplete="off" formControlName="mail" />
+
+          <!-- performs validation against the given mail -->
+            <button id="cancel-btn" (click)="this.cancelValidation($event)" style="border-radius: 0px;background-color:RGB(248, 68, 100) "> Cancel</button>
+            <button id="validate-btn" (click)="this.validateMail($event)">Validate</button>
+            <div *ngIf="this.showOtpContainer" id="otpContainer">
+              <label for="otp">One Time Password</label>
+              <input type="number" name="otp" id="otp" (keyup)="this.verifyOtp()" />
+            </div>
+          <!-- -->
+          <div *ngIf="personal_details.get('mail')?.invalid && ( personal_details.get('mail')?.dirty || personal_details.get('mail')?.touched )" class="invalid-feedback">
+            <span *ngIf="personal_details.get('mail')?.errors?.['required']">Email is required.</span>
+            <span *ngIf="personal_details.get('mail')?.errors?.['email']">Enter a valid Email Address</span>
+          </div>
+        </div> 
+         
+        <div class="inputBox">
+          <label for="mobile"> <i class="fa-solid fa-mobile-screen-button"></i>Phone</label><br>
+          <input type="number" id="mobile" placeholder="eg.1234567890" autocomplete="off"   formControlName="mobile" />
+
+          <div *ngIf="personal_details.get('mobile')?.invalid && (personal_details.get('mobile')?.dirty || personal_details.get('mobile')?.touched)" class="invalid-feedback">
+            <span *ngIf="personal_details.get('mobile')?.errors?.['required']">Mobile number is required.</span>
+            <span *ngIf="personal_details.get('mobile')?.errors?.['pattern']">Mobile number must be 10 digits.</span>
+          </div>
+
+        </div>
+      </div>
+      
+       <div class="inputBox-container">
+
+        <div class="inputBox">
+          <label for="address"><i class="fa-solid fa-barcode"></i>Address</label><br>
+          <input type="number" id="address" placeholder="no.1/2.." autocomplete="off"  formControlName="address"/>
+
+          <div *ngIf="personal_details.get('address')?.invalid && ( personal_details.get('address')?.dirty || personal_details.get('address')?.touched ) " class="invalid-feedback">
+            <span *ngIf="personal_details.get('address')?.errors?.['required']">Address is required.</span> 
+          </div>
+        </div>
+
+        <div class="inputBox">
+          <label for="pincode"><i class="fa-solid fa-barcode"></i>Pincode</label><br>
+          <input type="number" id="pincode" placeholder="eg.600001" autocomplete="off" (keyup)="this.getLocation($event)"  formControlName="pincode"/>
+
+          <div *ngIf="personal_details.get('pincode')?.invalid && ( personal_details.get('pincode')?.dirty || personal_details.get('pincode')?.touched ) " class="invalid-feedback">
+            <span *ngIf="personal_details.get('pincode')?.errors?.['required']">Pincode is required.</span>
+            <span *ngIf="personal_details.get('pincode')?.errors?.['pattern']">Pincode must be 6 digits.</span>
+          </div>
+        </div>
+      
+      </div>
+
+      <div class="inputBox-container">
+        <div class="inputBox">
+          <label for="city"> <i class="fa-brands fa-periscope"></i> City</label><br>
+          <input type="text" id="city" placeholder="eg.Chennai"  formControlName="city"  readonly  />
+        </div>
+        <div class="inputBox">
+          <label for="state"><i class="fa-solid fa-location-pin"></i> State</label><br>
+          <input type="text" id="state" placeholder="eg.Tamil Nadu" formControlName="state"  readonly autocomplete="off" />
+        </div>
+      </div>
+
+      <div class="inputBox-container">
+
+        <div class="inputBox" *ngIf="firebase.userType === 'Admin'"> 
+          <label for="state"><i class="fa-solid fa-location-pin"></i>Map location</label><br>
+          <button id="location-btn" (click)="personal_details.enabled && togglePopup($event)"><i class="fa-solid fa-map-pin"></i>Select Location</button>
+           <p *ngIf="personal_details.get('maplocation')?.valid" style="font-size: 12px;">Latitude & Longitude : {{personal_details.get('maplocation')?.value}}</p>
+        </div>
+      </div>
+    
+      <div class="btn-block" style="display: none;">
+        <button class="confirm-btn-red" type="button" (click)="this.cancelUserUpdates()">Cancel</button>
+        <button class="confirm-btn-green" type="submit">Save</button>
+      </div>
+
+    </div>
+
+  </form>
+</div>

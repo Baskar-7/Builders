@@ -1,0 +1,40 @@
+<!-- <p>footer works!</p> -->
+<footer class="footer">
+    <div class="footer-container">
+      <div class="footer-section logo">
+        <!-- <img src="assets/logo.png" alt="Company Logo" /> -->
+         <h2>SGS CONSTRUCTIONS</h2>
+        <p>Building the Future, One Brick at a Time</p>
+      </div>
+      <div class="footer-section links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li (click)="handleAction(3)"><a>About Us</a></li>
+          <li (click)="handleAction(2)"><a>Projects</a></li>
+          <li (click)="handleAction(1)"><a>Services</a></li>
+          <li (click)="handleAction(4)"><a>Contact Us</a></li>
+          <li><a>Privacy Policy</a></li>
+          <li><a >Terms & Conditions</a></li>
+        </ul>
+      </div>
+      <div class="footer-section contact">
+        <h4>Contact</h4>
+        <p>{{details.address}}</p>
+        <p>Phone: +91 {{details.mobile}}</p>
+        <p>Email: <a href="{{details.mail}}">{{details.mail}}</a></p>
+      </div>
+      <div class="footer-section social">
+        <h4>Follow Us</h4>
+        <div class="social-icons">
+          <a href="https://facebook.com" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+          <a href="https://instagram.com" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+          <a href="https://linkedin.com" target="_blank"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="https://twitter.com" target="_blank"><i class="fa-brands fa-twitter"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2024 SGS Constructions. All Rights Reserved.</p>
+    </div>
+</footer>
+  

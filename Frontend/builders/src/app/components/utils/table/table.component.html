@@ -1,0 +1,100 @@
+<!-- <p>table works!</p> -->
+
+<div class="flex-table">
+
+    <div class="filters-box flex-box">
+       
+        <input *ngIf="layout.canSearch" type="text" class="search_box" name="searchbox" placeholder="search" value="{{layout.searchVal}}" (keydown.enter)="this.search($event)" autocomplete="off">
+        <div *ngIf="layout.filterList.length != 0" class="dropdown" tabindex="0" (focusout)="toggleDropdown($event)">
+            <div class="select" (click)="toggleDropdown($event)">
+                <span id="{{layout.label}}_selected">
+                    <ng-container *ngIf="layout.filterValue.length > 0;else defaultfilter">{{layout.filterValue}}</ng-container>
+                    <ng-template #defaultfilter>Filter By</ng-template>
+                </span>
+                <i class="fa-solid fa-caret-down"></i>
+            </div>
+            <ul class="dropdown-menu scroll-bar" (click)="filterBy($event)">
+                <li *ngFor="let option of layout.filterList" id={{option}}>{{option}}</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="table-container scroll-bar">
+          <table>
+            <thead>
+                <tr>
+                   <ng-container>
+                        <th>
+                            <ng-container *ngIf="layout.actions.length > 0">Actions</ng-container>
+                        </th>
+                    </ng-container>
+                    <ng-container *ngFor="let column of layout.cols">
+                        <th (click)="layout.sortArray.includes(column.column) && sortBy(column)">
+                            {{column.columnDispName}}
+                            <i *ngIf="layout.sortArray.includes(column)" class="fa-solid" [ngClass]="layout.sortingOrder ? 'fa-caret-up' : 'fa-caret-down'"></i>
+                        </th>
+                    </ng-container>
+                </tr>
+            </thead>
+            <tbody>
+                
+                <ng-container *ngFor="let datum of content;index as id">
+                    <tr> 
+                        <td *ngIf="layout.actions.length > 0; else emptytd" >
+                            <div style="display:inline-flex;">
+                                <span *ngIf="shouldDisplayAction('confirm',datum)" class="parent" (click)="handleAction('confirm', datum ,$event)">
+                                    <i class="fa-regular fa-circle-check"></i>
+                                    <div class="tooltip-container"><span class="tooltip">confirm</span></div>
+                                </span>
+                                <span *ngIf="shouldDisplayAction('cancel',datum)" class="parent" (click)="handleAction('cancel',datum,$event)">
+                                    <i class="fa-regular fa-circle-xmark"></i>
+                                    <div class="tooltip-container"><span class="tooltip">cancel</span></div>
+                                </span>
+                                <span *ngIf="shouldDisplayAction('edit',datum)" class="parent" (click)="handleAction('edit',datum,$event)">
+                                    <i class="fa-solid fa-pen"></i>
+                                    <div class="tooltip-container"><span class="tooltip">edit</span></div>
+                                </span>
+                                <span *ngIf="shouldDisplayAction('delete',datum)" class="parent"  (click)="handleAction('delete',datum,$event)">
+                                    <i class="fa-regular fa-trash-can"></i>
+                                    <div class="tooltip-container"><span class="tooltip">delete</span></div>
+                                </span>
+                                <span *ngIf="shouldDisplayAction('upgrade',datum)" class="parent" (click)="handleAction('upgrade',datum,$event)">
+                                    <i class="fa-solid fa-circle-up"></i>
+                                    <div class="tooltip-container"><span class="tooltip">upgrade</span></div>
+                                </span> 
+                                <span *ngIf="shouldDisplayAction('degrade',datum)" class="parent"  (click)="handleAction('degrade',datum,$event)">
+                                    <i class="fa-solid fa-circle-up fa-rotate-180"></i>
+                                    <div class="tooltip-container"><span class="tooltip">degrade</span></div>
+                                </span>
+                                <span *ngIf="shouldDisplayAction('close',datum)" class="parent" (click)="handleAction('close',datum,$event)">
+                                    <i class="fa-solid fa-circle-xmark"></i>
+                                    <div class="tooltip-container"><span class="tooltip">Close</span></div>
+                                </span>
+                                    <span *ngIf="shouldDisplayAction('open',datum)" class="parent" (click)="handleAction('open',datum,$event)">
+                                    <i class="fa-solid fa-circle-check"></i>
+                                    <div class="tooltip-container"><span class="tooltip">Open</span></div>
+                                </span>
+                                <span *ngIf="shouldDisplayAction('view',datum)" class="parent" (click)="handleAction('view',datum,$event)">
+                                    <i class="fa-regular fa-eye"></i>
+                                    <div class="tooltip-container"><span class="tooltip">View Details</span></div>
+                                </span>
+                            </div>
+                        </td>
+                        <ng-template #emptytd>
+                            <td></td>
+                        </ng-template>
+                        <td *ngFor="let col of layout.cols">
+                            {{ 'getObjectValue' | multiCondition : [datum,col.column] }}
+                        </td>
+                    </tr>
+                </ng-container>
+            </tbody>
+        </table>
+        <button *ngIf="layout.add_new" class="add-more" (click)="handleAction('addMore','',$event)"><i class="fa-solid fa-plus"></i>{{content.length > 0 ? 'Add more' : 'Add New'}}</button>
+        
+        <div *ngIf="content.length === 0" style="text-align:center;margin-top:100px;font-size:20px;">
+            No Records
+        </div>
+      
+    </div>
+</div>

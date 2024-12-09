@@ -1,0 +1,233 @@
+<!-- <p>add-projects works!</p> -->
+
+<app-loader [(isLoading)]="isloading" ></app-loader>
+<app-msg-box [statusMessage]="statusMessage" ></app-msg-box>
+<app-pop-up-service [(showPopup)]="showAmenities" [popUpOption]="'addAmenities'" (handleActions)="handlePopupServiceActions($event)" [(results)]="project_details.amenities"></app-pop-up-service>
+<app-pop-up-service [(showPopup)]="showLocations" [popUpOption]="'getLocation'" (handleActions)="handlePopupServiceActions($event)"></app-pop-up-service>
+<div class="add-projects flex-box scroll-bar">
+
+    <form class="overview-form form scroll-bar hide-scrollbar" [formGroup]="overview_Form" >
+        <h2><i class="fa-solid fa-list-check"></i> Project Overview</h2>
+        <div class="inputBox-container">
+            
+            <div class="inputBox">
+                <label for="project-type"><i class="fa-solid fa-house-chimney"></i>Project Type</label><br>
+                <div class="project-types-list dropdown" >
+                    <div class="select" (click)="this.toggleDropdown('project-types-list','open')" >
+                        <span class="text-wrap selected_category"><ng-container *ngIf="overview_Form.get('project_type')?.valid ; else default">{{overview_Form.get('project_type')?.value}}</ng-container> <ng-template #default>Select Project type</ng-template></span>
+                        <i class="fa-solid fa-caret-down"></i>
+                    </div>
+                    <ul class="dropdown-menu scroll-bar" (click)="selectProjectType($event)" (mouseleave)="toggleDropdown('project-types-list','close')">
+                        <li>Villa</li>
+                        <li>Apartment</li>
+                        <li>Studio Apartment</li>
+                        <li>Duplex</li>
+                        <li>Triplex</li>
+                        <li>Townhouse</li>
+                        <li>Penthouse</li>
+                        <li>Loft</li>
+                    </ul>
+                </div>
+                <div *ngIf="overview_Form.get('project_type')?.invalid && overview_Form.get('project_type')?.dirty" class="invalid-feedback">
+                    <span *ngIf="overview_Form.get('project_type')?.errors?.['required']">Project type is required.</span>
+                </div>
+            </div>
+            <div class="inputBox project_specs">
+                <label for="project_specs"><i class="fa-regular fa-clipboard"></i>Project specifications</label><br>
+                <input type="number" id="project_specs" autocomplete="off"  placeholder="Total units" formControlName="total_units" style="border-top-right-radius: 0px;border-bottom-right-radius: 0px;"/>
+                <input type="number" id="project_specs2" autocomplete="off"  placeholder="No. of Blocks" formControlName="total_blocks" style="border-radius: 0px;"/>
+                <input type="number" id="project_specs3" autocomplete="off"  placeholder="No. of Floors" formControlName="total_floors" style="border-top-left-radius: 0px;border-bottom-left-radius: 0px;"/>
+                <div *ngIf="(overview_Form.get('total_units')?.invalid && overview_Form.get('total_units')?.dirty) || (overview_Form.get('total_blocks')?.invalid && overview_Form.get('total_blocks')?.dirty) || (overview_Form.get('total_floors')?.invalid && overview_Form.get('total_floors')?.dirty)" class="invalid-feedback">
+                  <span>Project Specifications is required.</span> 
+                </div>
+            </div>
+           
+        </div>
+
+        <div class="inputBox-container">
+
+            <div class="inputBox">
+                <label for="project_name"><i class="fa-solid fa-signature"></i>Name of the Property</label><br>
+                <input type="text" id="project_name" autocomplete="off"  placeholder="Elisiyum Apartments" formControlName="project_name" />
+                
+                <div *ngIf="overview_Form.get('project_name')?.invalid && overview_Form.get('project_name')?.dirty" class="invalid-feedback">
+                  <span *ngIf="overview_Form.get('project_name')?.errors?.['required']">Name of the property is required.</span>
+                </div>
+              </div>
+
+            <div class="inputBox">
+                <label for="landmark"><i class="fa-solid fa-thumbtack fa-rotate-by" style="--fa-rotate-angle: 320deg;"></i>Project Landmark</label><br>
+                <input type="text" formControlName="landmark" name="landmark" placeholder=" Maduravoyal, Chennai" autocomplete="off"/>
+
+                <div *ngIf="overview_Form.get('landmark')?.invalid && overview_Form.get('landmark')?.dirty" class="invalid-feedback">
+                    <span *ngIf="overview_Form.get('landmark')?.errors?.['required']">Landmark is required.</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="inputBox-container">
+            <div class="inputBox">
+                <label for="address"><i class="fa-solid fa-location-dot"></i>Address</label><br>
+                <textarea type="textarea" formControlName="address" name="address" placeholder="1st street....." autocomplete="off" ></textarea>
+
+                <div *ngIf="overview_Form.get('address')?.invalid && overview_Form.get('address')?.dirty" class="invalid-feedback">
+                    <span *ngIf="overview_Form.get('address')?.errors?.['required']">Address is required.</span>
+                </div>
+            </div>
+
+            <div class="inputBox">
+                <label for="pincode"><i class="fa-solid fa-barcode"></i>Pincode</label><br>
+                <input type="number" formControlName="pincode" name="pincode" placeholder="600095" autocomplete="off" (keyup)="overview_Form.get('pincode')?.valid && this.getLocation($event)"/>
+
+                <div *ngIf="overview_Form.get('pincode')?.invalid && overview_Form.get('pincode')?.dirty" class="invalid-feedback">
+                    <span *ngIf="overview_Form.get('pincode')?.errors?.['required']">Pincode is required.</span>
+                    <span *ngIf="overview_Form.get('pincode')?.errors?.['pattern']">Pincode must be 6 digits.</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="inputBox-container">
+            
+            <div class="inputBox radio-btn radio-container">
+              
+                <label><i class="fa-solid fa-clock-rotate-left"></i> Project Status</label>
+                <div class="radio-box" style="color: #d9d6d6;">
+                  <label for="ongoing"><input type="radio" id="ongoing" class="input-radio" formControlName="status" value="Under Construction" /> Under Construction</label>
+                  <label for="prelaunch"><input type="radio" id="prelaunch" class="input-radio"  formControlName="status" value="Prelaunch" />Prelaunch</label>
+                  <label for="ready-to-occupy"><input type="radio" id="ready-to-occupy" class="input-radio"  formControlName="status" value="Ready to Occupy" />Ready to Occupy</label>
+                </div>
+      
+                <div *ngIf="overview_Form.get('status')?.invalid && overview_Form.get('status')?.dirty" class="invalid-feedback">
+                  <span *ngIf="overview_Form.get('status')?.errors?.['required']">Project status is required.</span>
+                </div>
+  
+              </div>
+
+            <div class="inputBox">
+                <label for="amenities"><i class="fa-solid fa-map-location"></i>Map Location</label><br>
+                <div class="inline">
+                    <button id="add-menity-btn" (click)="this.togglePopup('locations')"><i class="fa-solid fa-map-pin"></i>Select Location</button>
+                    <p *ngIf="overview_Form.get('latitude')?.valid && overview_Form.get('longitude')?.valid">Latitude : {{overview_Form.get('latitude')?.value}}, Longitude: {{overview_Form.get('longitude')?.value}}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="inputBox-container">
+        
+            <div class="inputBox">
+                <label for="amenities"><i class="fa-solid fa-star"></i>Amenities</label><br>
+                <div class="inline">
+                    <button id="add-menity-btn" (click)="this.togglePopup('amenities')"><i class="fa-solid fa-plus"></i> Add Amenity</button>
+                    <ul class="amenitieis-list scroll-bar">
+                        <li *ngFor="let amenity of this.project_details.amenities; let i = index">
+                            {{amenity.amenity}}
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="inputBox">
+                <label for="elevation_poster"><i class="fa-regular fa-file-image"></i>Elevation Poster</label>
+                <div class="inline">
+                    <input type="file" formControlName="elevation_poster" name="elevation_poster" placeholder="Select Poster" accept=".jpg,.png.jpeg" (change)="this.updateElevationPoster($event)" style="width: 50%;"/>
+                    <ng-container *ngIf="overview_Form.get('elevation_poster')?.value">
+                        <img class="elevation_poster" #elevation_poster>
+                    </ng-container>
+                </div>
+
+                <div *ngIf="overview_Form.get('elevation_poster')?.invalid && overview_Form.get('elevation_poster')?.dirty" class="invalid-feedback">
+                    <span *ngIf="overview_Form.get('elevation_poster')?.errors?.['required']">Elevation Poster is required.</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="nav-btn-block" style="position: relative;">
+            <span></span>
+            <button id="next-step-btn" *ngIf="overview_Form.valid && project_details.amenities.length > 0" type="submit" (click)="this.transistForm($event,1)">Next </button>
+        </div>
+    </form>
+
+    <section class="floorPlans-form form">
+        <h1>BluePrints <i class="fa-solid fa-fingerprint"></i></h1>
+        <app-image-category-carousel [canCustomize]="true" [label]="'BluePrints'" [(categoryDetails)]="project_details.bluePrints" [filterContent]="carouselLayoutOptions.bluePrintTypes"></app-image-category-carousel>
+        <div class="nav-btn-block">
+            <button id="prev-step-btn"  type="submit" (click)="this.transistForm($event,-1)">Prev </button>
+            <button id="next-step-btn" *ngIf="project_details.bluePrints.length > 0"  type="submit" (click)="this.transistForm($event,1)">Next </button>
+        </div>
+    </section>
+
+    <section class="gallery-form form" >
+        <h1>Gallery <i class="fa-solid fa-panorama"></i></h1>
+        <app-image-category-carousel [canCustomize]="true" [label]="'Gallery'" [(categoryDetails)]="project_details.gallery" [filterContent]="carouselLayoutOptions.galleryType"></app-image-category-carousel>
+        <div class="nav-btn-block">
+            <button id="prev-step-btn"  type="submit" (click)="this.transistForm($event,-1)">Prev </button>
+            <button id="next-step-btn" *ngIf="project_details.gallery.length > 0"  type="submit" (click)="this.transistForm($event,1)">Next </button>
+        </div>
+    </section>
+
+    <section class="configuration-form form" >
+        <h2><i class="fa-solid fa-sliders"></i>Configurations </h2>
+        <app-table [layout]="tableLayout" [(content)]="project_details.configurations" (handleActions)="handleConfigFormActions($event)"></app-table>
+
+        <section class="add-config-dialogbox" id="add-config-draggable-container">
+            <div class="pop-up-form">
+                <div class="customize-options">
+                    <span class="drag-handle"><i class="fa-solid fa-grip-lines"></i></span>
+                    <span (click)="toggleAddConfigDialogBox()"><i class="fa-solid fa-xmark"></i></span>
+                </div>
+                <h2>Add Config </h2>
+                <form (ngSubmit)="addConfig($event)" [formGroup]="add_configform">
+                    <div class="scroll-bar">
+                        <div class="input-container">
+                            <label for="bhk">BHK<sup>*</sup></label>
+                            <input type="number" id="bhk" formControlName="bhk" placeholder="2" autocomplete="off"> 
+                            <div *ngIf="add_configform.get('bhk')?.invalid && (add_configform.get('bhk')?.dirty || add_configform.get('bhk')?.touched)" class="invalid-feedback">
+                                <span *ngIf="add_configform.get('bhk')?.errors?.['required']">BHK is required.</span>
+                            </div>
+                        </div>
+                        <div  class="input-container">
+                            <label for="unit_type">Unit Type<sup>*</sup></label>
+                            <input type="text" id="unit_type" formControlName="unit_type" placeholder="Villa" autocomplete="off"> 
+                            <div *ngIf="add_configform.get('unit_type')?.invalid && (add_configform.get('unit_type')?.dirty || add_configform.get('unit_type')?.touched)" class="invalid-feedback">
+                                <span *ngIf="add_configform.get('unit_type')?.errors?.['required']">Unit Type is required.</span>
+                            </div>
+                        </div>
+                        <div  class="input-container">
+                            <label for="min_area">Built Up Area<sup>*</sup></label>
+                            <div style="display: flex;">
+                                <input type="number" id="min_area" formControlName="min_area" placeholder="from 250"  autocomplete="off">
+                                <input type="number" id="max_area" formControlName="max_area" placeholder="to 1500"  autocomplete="off"> 
+                            </div> 
+                            <div *ngIf="isBuiltAreaInvalid" class="invalid-feedback">
+                                <span>Built area is required.</span>
+                            </div>
+                        </div>
+                        <div  class="input-container">
+                            <label for="sqft_price">Price / sq.ft<sup>*</sup></label>
+                            <input type="number" id="sqft_price" formControlName="sqft_price" placeholder="4800" autocomplete="off"> 
+                            <div *ngIf="add_configform.get('sqft_price')?.invalid && (add_configform.get('sqft_price')?.dirty || add_configform.get('sqft_price')?.touched)" class="invalid-feedback">
+                                <span *ngIf="add_configform.get('sqft_price')?.errors?.['required']">Sqft Price is required.</span>
+                            </div>
+                        </div>
+                        <div  class="input-container">
+                            <label for="min_price">Price Range<sup>*</sup></label>
+                            <div style="display: flex;">
+                                <input type="number" id="min_price" placeholder="min" formControlName="min_price" autocomplete="off">
+                                <input type="number" id="max_price" placeholder="max" formControlName="max_price" autocomplete="off">
+                            </div>
+                            <div *ngIf="((add_configform.get('min_price')?.invalid && (add_configform.get('min_price')?.dirty ||  add_configform.get('min_price')?.touched)) || (add_configform.get('max_price')?.invalid && (add_configform.get('max_price')?.dirty ||  add_configform.get('max_price')?.touched)))" class="invalid-feedback">
+                                <span>Price Range is required.</span>
+                            </div> 
+                        </div>
+                    </div>
+                    <button type="submit" class="confirm-btn-red">Submit</button>
+                </form>
+            </div>
+        </section>
+
+        <div class="nav-btn-block">
+            <button id="prev-step-btn"  type="submit" (click)="this.transistForm($event,-1)">Prev </button>
+            <button id="next-step-btn"  type="submit" (click)="addProject($event)">Submit </button>
+        </div>
+    </section>
+</div>
+

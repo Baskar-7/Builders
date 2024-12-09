@@ -1,0 +1,105 @@
+
+<app-loader [(isLoading)]="isloading"></app-loader>
+<app-msg-box [statusMessage]="statusMessage"></app-msg-box>
+
+<div class="login-container slidetoTop"> 
+        <div class="login-form">
+            
+            <!-- Close Button for Login -->
+            <div class="close" style="right: 30px;" (click)="toggleContainer('login-container','slidetoTop')">&times;</div>
+
+             <!-- Tab 1: Sign-in Options -->
+            <div  *ngIf="currentTab === 1" class="tab1">
+                <h2>Sign in</h2>
+                <div class="choice">
+                    <div (click)="signInWithGoogle()"> 
+                        <img class="icon" src="assets/icons/gsignin.jpg" loading="lazy" />
+                        <span>Continue with Google</span>
+                    </div> 
+
+                        <h4>OR</h4>
+                    <div (click)="selectTab(2)">
+                        <i class="fa-regular fa-envelope"></i>
+                        <span>Continue with Mail</span>
+                    </div>
+
+                    <h4>OR</h4>
+                    <div (click)="selectTab(3)">
+                        <i class="fa-solid fa-square-phone"></i>
+                        <span>Continue with Mobile</span>
+                    </div>
+                </div> 
+            </div>             
+
+            <!-- Tab 2: Mail Input Form -->
+            <form  *ngIf="currentTab === 2" (submit)="sendOtp(false,$event)">
+                <div class="tab2">
+                    <h2>Sign in</h2>
+                    <!-- Back Button for Login -->
+                    <div class="close" style="left: 30px;"(click)="selectTab(1)" >&#11178;</div>
+                    <div class="inputBox">
+                        <input id="mailInput"  required  name="mail" type="email" autocomplete="off" placeholder="Enter Your Mail" style="margin: 0;"  />
+                        <i></i>
+                    </div>
+                    <div class="btn-animated" >
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <input type="submit" value="Continue"/>
+                    </div>
+                </div> 
+            </form>
+
+            <!-- Tab 3: Mobile Input Form -->
+            <form  *ngIf="currentTab === 3" (submit)="sendOtp(true,$event)">
+                <div class="tab2">
+                    <h2>Sign in</h2>
+                    <!-- Back Button for Login -->
+                    <div class="close" style="left: 30px;" (click)="selectTab(1)" >&#11178;</div>
+
+                    <div style="padding-top: 50px;display: flex;flex-direction: column;align-items: center;">
+                        <div class="outer-container" (keyup)="checkMaxLength(10,$event)">
+                            <input type="tel" id="phone" placeholder="Enter you Mobile number" required  name="mobile" autocomplete="off"/>
+                            <i></i>
+                        </div>
+                        <div id="recaptcha-container"></div>
+                        <div class="btn-animated" >
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                            <input type="submit" value="Continue"/>
+                        </div>
+                    </div>
+
+                </div> 
+            </form>
+
+            <!-- Merged Tab 4: OTP Verification for Both Email and Mobile -->
+            <form *ngIf="currentTab === 4"  (submit)="verifyOtp($event)"> 
+                <div class="tab3">
+                    <h4>Verify your {{ isMobile ? 'Mobile' : 'Email' }}<br><span style="font-size:13px;">Enter the OTP sent to {{ isMobile ? user.mobile : user.email }}</span></h4>
+                    <div class="close" style="left: 30px;" (click)="selectTab(1)" >&#11178;</div>
+                    <div id="OTPContainer" class="input-field" >
+                        <input  #otpInput type="number" name="otp1" pattern="\d" autocomplete="off" (keyup)="onOtpInput($event, 0)" required/>
+                        <input  #otpInput type="number" name="otp2" pattern="\d" autocomplete="off" (keyup)="onOtpInput($event, 1)" required disabled />
+                        <input  #otpInput type="number" name="otp3" pattern="\d" autocomplete="off" (keyup)="onOtpInput($event, 2)" required disabled />
+                        <input  #otpInput type="number" name="otp4" pattern="\d" autocomplete="off" (keyup)="onOtpInput($event, 3)" required disabled />
+                        <ng-container *ngIf="isMobile">
+                            <input  #otpInput type="number" name="otp5" pattern="\d" autocomplete="off" (keyup)="onOtpInput($event, 4)" required disabled />
+                            <input  #otpInput type="number" name="otp6" pattern="\d" autocomplete="off" (keyup)="onOtpInput($event, 5)" required disabled />
+                        </ng-container>
+                    </div>
+                    <h6 #countdowntimer id="countdowntimer"(click)="ResendOTP()"></h6>
+                    <div class="btn-animated" >
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <input  id="submit-btn" type="submit" value="Verify"/>
+                    </div>
+                </div>
+            </form>
+        </div> 
+</div>

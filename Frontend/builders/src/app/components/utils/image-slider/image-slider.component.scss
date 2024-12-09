@@ -1,0 +1,134 @@
+
+.image-slider {
+    width: 95%;
+    display: flex;
+    flex-flow: column;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 8px;
+    contain: content;
+    background-color: #0006;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 2px, rgba(0, 0, 0, 0.3) 0px 2px 4px,
+        rgba(0, 0, 0, 0.25) 0px 4px 8px, rgba(0, 0, 0, 0.2) 0px 8px 16px,
+        rgba(0, 0, 0, 0.15) 0px 16px 32px;
+        margin: 10px;
+}
+
+.slider-arrows{
+    z-index: 3;
+    height: 75%;
+    span{
+        &:hover i{
+            opacity: 1;
+        }
+    }
+}
+
+.slider_content {
+    flex-grow: 1;
+}
+
+.image-display {
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    inset: 0;
+}
+
+.slider-navigation {
+    z-index: 2;
+    display: flex;
+    flex-direction: row;
+    padding: 5px;
+    place-content: center;
+    backdrop-filter: blur(20px) brightness(110%);
+
+    .thumbnail{
+        object-fit: cover;
+    }
+}
+
+.nav-button {
+    display: flex;
+    width: 100%;
+    height:40px;
+    padding: 5px;
+    border-radius: 0.5em;
+    overflow: hidden;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    transition: filter 150ms linear, scale 266ms ease;
+}
+
+.thumbnail {
+    display: block;
+    max-width: 100%;
+    min-width: 40%;
+    height: 100%;
+}
+
+.actions{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    right: 0;
+    z-index: 3;
+    margin: 5px;
+    i{
+        font-size: 12px;
+        opacity: 0.5;
+        background-color: #fff;
+        color:#000;
+        border-radius: 40px;
+        padding: 5px;
+        margin: 2px;
+        &:hover{
+            opacity: 1;
+        }
+    }
+}
+
+.nav-button[aria-selected="true"] {
+    scale: 1.1;
+    .thumbnail{
+        border: 2px solid rgb(87, 87, 242);
+    }
+}
+
+.nav-button[aria-selected="false"] {
+    filter: opacity(0.7);
+
+    &:hover, &:focus-visible {
+        filter: opacity(1);
+    }
+}
+
+
+.caption{
+       font-size: 120%;
+       text-align: center;
+       span{
+        padding: 10px;
+        background-color: rgb(0 0 0 / 42%);
+        border-radius: 5px;
+       }
+}
+
+@media screen and (max-width: 480px) {
+    .image-slider{
+        width: 85%; 
+        margin: auto;
+        .slider_content {
+            .slider-arrows{ 
+                i{
+                    width: 10px;height: 10px;
+                }
+            }
+        }
+        .slider-navigation{
+            height: 20%;
+        }
+    }
+}

@@ -1,0 +1,163 @@
+<!-- <p>project-details works!</p> -->
+
+<app-login-module [(isOpen)]="isLoginOpen"></app-login-module>
+<app-loader [(isLoading)]="isloading" ></app-loader>
+<app-msg-box [statusMessage]="statusMessage"></app-msg-box>
+
+<div class="project_details scroll-bar hide-scrollbar">
+  <a (click)="this.externalLink('https://wa.me/9080740652?text=Hello!%20I%20would%20like%20to%20know%20more.')" class="btn-whatsapp-pulse">
+    <i class="fab fa-whatsapp"></i>
+  </a>
+  <header>
+    <div>
+      <nav class="header">
+        <a (click)="scrollTo(0)">Home </a>
+        <a (click)="scrollTo(1)">Services</a>
+        <a (click)="scrollTo(2)">Projects</a>
+        <a (click)="scrollTo(3)">About</a>
+        <a (click)="scrollTo(4)">Contact Us</a>
+      </nav>
+    </div>
+
+    <ng-container *ngIf="firebaseService.isAuthenticated; else elseBlock">
+      <a routerLink="/profile/profile-details">
+        <img [src]="firebaseService.userPicture || 'assets/icons/profile.png'" alt="profile" onerror="this.onerror=null; this.src='assets/icons/profile.png';" style="width: 50px;height: 50px; border: 1px solid #393838; border-radius: 100px;">
+      </a>
+    </ng-container>
+      
+    <ng-template #elseBlock>
+      <div (click)="toggleContainer('login-container','slidetoTop')">
+          Login <i class="fa-solid fa-right-to-bracket"></i>
+      </div>
+    </ng-template> 
+  </header>
+    <div class="introduction">
+          <img src="data:image/jpeg;base64,{{project_details.elevation_poster}}" alt="elevation_poster">
+           <!-- <img src="https://5.imimg.com/data5/SELLER/Default/2024/1/379648811/YQ/OU/LZ/19476452/apartment-exterior-designing-service.jpg" alt=""> -->
+        <div class="container">
+
+          <div class="details">
+            <div class="highlights">
+              <h1>{{project_details.project_name | uppercase}} HIGHLIGHTS</h1>
+              <p>
+                {{ 'formatString' | multiCondition : [project_details.project_type]}} from {{project_details.built_area}},<br>
+                Located in {{project_details.landmark}},<br>
+                Rs. {{'price' | multiCondition : [project_details.starting_price]}} Onwards*
+              </p>
+              <div class="project-stats">
+                <span class="stat-item" *ngIf="project_details.total_blocks > 1">{{ project_details.total_blocks }} Blocks</span>
+                <span class="stat-item" *ngIf="project_details.total_floors > 1">{{ project_details.total_floors }} Floors</span>
+                <span class="stat-item" *ngIf="project_details.total_units > 1">{{ project_details.total_units }} Units</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+    </div>
+    <div class="blueprints">
+      <h1>Blueprints</h1>
+      <app-image-category-carousel [canCustomize]="false" [label]="'blueprints'" [(categoryDetails)]="this.project_details.blueprints"></app-image-category-carousel>
+      <div class="btn-block">
+        <button class="inest-btn-animation" (click)="scrollToSection('enquiryform')">Enquire Now</button>
+      </div>
+    </div>
+    <div class="gallery">
+      <h1>Gallery</h1>
+      <app-image-category-carousel [canCustomize]="false" [label]="'gallery'" [(categoryDetails)]="this.project_details.gallery"></app-image-category-carousel>
+      <div class="btn-block">
+        <button class="inest-btn-animation" (click)="scrollToSection('enquiryform')">Enquire Now</button>
+      </div>
+    </div>
+    <div class="configs">
+      <h1>Configurations</h1>
+      <app-table [layout]="tableLayout" [(content)]="project_details.configs"  style="color: #5d5a5a;"></app-table>
+    </div>
+    <div class="gmaplocations">
+      <h1>Explore Our Location</h1>
+      <div #gmap id="gmap" style="height: 90%;width: 100%;">
+      </div>
+    </div>
+
+    <div class="enquiry flex-box" id="enquiryform" style="background-image: url(assets/bg/contact_bg.webp);">
+      <h1>Enquiry</h1>
+      <div [formGroup]="enquiryForm" class="enquiry-form">
+        <h3>ENQUIRE NOW</h3><p>HI, I'M INTERESTED IN THIS PROJECT!</p>
+        <form style="margin-left: 15px;" (submit)="this.addNewEnquiry($event)">
+          <div class="inputBox-container">
+              <div class="inputBox">
+                <label>Name</label><br>
+                <input type="text" formControlName="name" autocomplete="off">
+                <div *ngIf="enquiryForm.get('name')?.invalid && (enquiryForm.get('name')?.dirty || enquiryForm.get('name')?.touched)" class="invalid-feedback">
+                  <span *ngIf="enquiryForm.get('name')?.errors?.['required']">Name is required.</span> 
+                </div>
+              </div>
+              <div class="inputBox">
+                <label>Mobile</label><br>
+                <input type="number" autocomplete="off" formControlName="mobile">
+                <div *ngIf="enquiryForm.get('mobile')?.invalid && (enquiryForm.get('mobile')?.dirty || enquiryForm.get('mobile')?.touched)" class="invalid-feedback">
+                  <span *ngIf="enquiryForm.get('mobile')?.errors?.['required']">Mobile number is required.</span>
+                  <span *ngIf="enquiryForm.get('mobile')?.errors?.['pattern']">Mobile number must be 10 digits.</span>
+                </div>
+              </div>
+          </div>
+          <div class="inputBox-container">
+            <div class="inputBox">
+              <label>Mail</label><br>
+              <input type="email" autocomplete="off" formControlName="mail">
+              <div *ngIf="enquiryForm.get('mail')?.invalid && (enquiryForm.get('mail')?.dirty || enquiryForm.get('mail')?.touched)" class="invalid-feedback">
+                <span *ngIf="enquiryForm.get('mail')?.errors?.['required']">Mail is required.</span> 
+                <span *ngIf="enquiryForm.get('mail')?.errors?.['email']">Enter a valid Email Address</span>
+              </div>
+            </div> 
+          </div>
+          <div class="btn-block"> 
+            <button class="confirm-btn-green">Submit</button>
+          </div>
+        </form>
+      </div>
+  </div>
+
+
+  <div class="footer">
+    <app-footer (handleActions)="handleFooterActions($event)"></app-footer>
+  </div>
+
+</div>
+
+
+
+ <!-- <div [formGroup]="enquiryForm" class="enquiry-form" style="color: #f5ffff;padding: 10px;border-radius: 10px;background-color: #80808063;">
+                <h3>ENQUIRE NOW</h3><p>HI, I'M INTERESTED IN THIS PROJECT!</p>
+                <form style="margin-left: 15px;" (submit)="this.addNewEnquiry($event)">
+                  <div class="inputBox-container">
+                      <div class="inputBox">
+                        <label>Name</label><br>
+                        <input type="text" formControlName="name" placeholder="eg.Baskar" autocomplete="off">
+                        <div *ngIf="enquiryForm.get('name')?.invalid && (enquiryForm.get('name')?.dirty || enquiryForm.get('name')?.touched)" class="invalid-feedback">
+                          <span *ngIf="enquiryForm.get('name')?.errors?.['required']">Name is required.</span> 
+                        </div>
+                      </div>
+                      <div class="inputBox">
+                        <label>Mobile</label><br>
+                        <input type="number" placeholder="eg.1234567890" autocomplete="off" formControlName="mobile">
+                        <div *ngIf="enquiryForm.get('mobile')?.invalid && (enquiryForm.get('mobile')?.dirty || enquiryForm.get('mobile')?.touched)" class="invalid-feedback">
+                          <span *ngIf="enquiryForm.get('mobile')?.errors?.['required']">Mobile number is required.</span>
+                          <span *ngIf="enquiryForm.get('mobile')?.errors?.['pattern']">Mobile number must be 10 digits.</span>
+                        </div>
+                      </div>
+                  </div>
+                  <div class="inputBox-container">
+                    <div class="inputBox">
+                      <label>Mail</label><br>
+                      <input type="email" placeholder="eg.xyz@gmail.com" autocomplete="off" formControlName="mail">
+                      <div *ngIf="enquiryForm.get('mail')?.invalid && (enquiryForm.get('mail')?.dirty || enquiryForm.get('mail')?.touched)" class="invalid-feedback">
+                        <span *ngIf="enquiryForm.get('mail')?.errors?.['required']">Mail is required.</span> 
+                        <span *ngIf="enquiryForm.get('mail')?.errors?.['email']">Enter a valid Email Address</span>
+                      </div>
+                    </div> 
+                  </div>
+                  <div class="btn-block"> 
+                    <button class="confirm-btn-green">Submit</button>
+                  </div>
+                </form>
+              </div> -->

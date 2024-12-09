@@ -1,0 +1,208 @@
+
+.add-projects{
+    width: 95%;
+    height: 84%;
+    max-width: 1200px;
+    backdrop-filter: blur(30px) brightness(100%); 
+    box-shadow: 0 0 10px rgba(255, 255, 255, .2);
+    padding: 20px;
+    border-radius: 10px;
+    user-select: none;
+    overflow: hidden;
+    color: #fff;
+    animation: enlarge 0.5s ease;
+    margin: auto;
+    
+    .form{
+        position: absolute;
+        height: 95%;
+        width: 95%;
+        visibility: hidden;
+    }
+    i{
+        color: aqua;
+    }
+    .overview-form
+    {
+        overflow-y: auto;
+        .elevation_poster{
+            width: 120px;
+            height: 120px;
+            margin: 10px;
+        }
+        i{
+            margin: 5px;
+        }
+        .dropdown
+        {   
+            width: 100%;
+            background-color:#bbfff3;
+           i{margin: 0px;color: #000;}
+            .dropdown-menu{
+                background-color:#bbfff3;
+            }
+            li:hover,li:active  {
+                background-color: rgba(15, 23, 23, 0.14);
+            }
+            li:active {
+                background-color: rgba(133, 244, 237, 0.54);
+            }
+        }
+        .inline{
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+            p{
+                margin: 10px;
+            }
+        }
+        .inputBox-container{
+            color: #514d4d;
+            width: 90%;
+            margin-bottom: 0px;
+            .inputBox{
+                margin-bottom: 30px;
+                input,textarea{
+                    border: 1px solid #ffffff51;
+                    color: #fff;
+                    &::placeholder{
+                        color: #ffffff58;
+                    }
+                }
+            }
+        }
+        .project_specs{
+              input{
+                width: calc((90% - 8px) / 3);
+            }
+        }
+        #add-menity-btn{
+            color:#fff;
+            padding: 2px 5px 2px 0px;
+        }
+        .amenitieis-list{
+            max-height: 100px;
+            overflow-y: auto;
+            li{
+                font-size: 13px;
+                padding: 2px;
+            }
+        }
+    }
+
+    .floorPlans-form{
+        color: #fff;
+    }
+
+    .configuration-form
+    {
+        .add-config-dialogbox{
+            display: none;
+        }
+        #add-config-draggable-container{
+            position: absolute;
+            top: 0;
+            left: 30%;
+            min-width: 350px;
+            z-index: 10;
+            form{
+                display: flex;
+                flex-direction: column;
+            }
+            .pop-up-form
+            { 
+                max-width: 400px;
+                padding: 20px;
+                background-color: #fff;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                border-radius: 5px;
+                .customize-options{
+                    padding: 2px 10px;
+                    position: absolute;
+                    right: 0px;
+                    span{
+                        padding: 5px;
+                        i{
+                            color: #333;
+                        }
+                    }
+                }
+                .scroll-bar{
+                    max-height: 350px;
+                    overflow: auto;
+                    max-width: 320px;
+                    padding: 10px;
+                    .input-container{
+                        margin-bottom: 20px;
+                    }
+                    .invalid-feedback{
+                        position: relative;
+                        font-size: 10px;
+                        color: rgb(221, 11, 11);
+                    }
+                }
+                label {
+                    display: block;
+                    color: rgb(62, 61, 61);
+                }
+                input{
+                    width: 95%;
+                    padding: 10px;
+                    color: #000;
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                    &:focus{
+                        outline: none;
+                    }
+                }
+                h2{
+                    color: #333;
+                    margin-top: 0px;
+                }
+            }
+        }
+
+        ::ng-deep .flex-table thead{
+            background-color: #000;
+        }
+    }
+
+    .nav-btn-block{
+        position: absolute;
+        bottom: 10px;
+    }
+}
+
+
+
+@keyframes enlarge {
+    from{width: 0%;opacity: 0;}
+    to{width: 100%;opacity: 1;}
+}
+
+@media screen and (max-width: 480px) {
+    .add-projects{ 
+        font-size: 12px;
+        padding: 0px;
+
+        form{
+           input,input::placeholder{
+             font-size: 10px;
+           }
+           .inputBox-container{
+            margin-left: 10px;
+           }
+        }
+          .configuration-form  #add-config-draggable-container{
+            left: 0px;
+            min-width: 200px;
+            .pop-up-form{
+                padding: 10px;
+            }
+          }
+    }
+}
+
+@media screen and (max-width: 481) and (max-width: 1024px){
+    
+}

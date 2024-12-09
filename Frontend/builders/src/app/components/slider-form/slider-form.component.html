@@ -1,0 +1,118 @@
+<!-- <p>slider-form works!</p> -->
+
+<app-pop-up-service  [(showPopup)]="showCustomLocations" [popUpOption]="'locations'" (handleActions)="this.handlePopUpActions($event)"></app-pop-up-service>
+<app-msg-box [statusMessage]="statusMessage"></app-msg-box>
+
+<div class="title">
+    <h1>SGS CONSTRUCTIONS</h1>
+    <p>Your Trusted Partner in Construction and Development</p>
+</div>
+<div class="header">
+    <h2>Transform Your Vision Into Reality!</h2>
+    <p>Choose the service that matches your project and let us build your dream together.</p>
+</div>
+<div class="sliding-form flex-box">
+    <div #decoratorElement1 class="decorations">
+        <!-- <img src="assets/worker.png"> -->
+ 
+        
+            <div class="animation-container">
+              <img id="building" src="assets/projects/p14.png" alt="Building">
+              <img id="floating-land" src="assets/projects/hanger.png" alt="Land" >
+            </div>
+ 
+    </div>
+    
+    <form #animatedForm [formGroup]="serviceReqForm" (ngSubmit)="addNewServiceReq($event)" class="cube animate" (mouseenter)="this.toggleAnimations(false)"> 
+            <section class="section1 one">
+                <label><h2>Which of the following best matches your project?</h2></label>
+                <div class="container"  (change)="serviceReqForm.get('service_type')?.valid && this.turnAround($event,'rotateY(-180deg)')">
+                    <label for="1">Home Extension<i class="fa-solid fa-circle-chevron-right" ></i> <input type="radio" id="1" formControlName="service_type" value="Home Extension"></label>
+                    <label for="2"  (change)="serviceReqForm.get('service_type')?.valid && this.turnAround($event,'rotateY(-90deg)')">Construction of a new home<i class="fa-solid fa-circle-chevron-right" ></i><input type="radio" id="2" formControlName="service_type" value="New Home"></label>
+                    <label for="3">Home renovation & remodeling<i class="fa-solid fa-circle-chevron-right" ></i><input type="radio" id="3" formControlName="service_type" value="Renovation & remodeling"></label>
+                    <label for="4">Home Demolition<i class="fa-solid fa-circle-chevron-right" ></i><input type="radio" id="4" formControlName="service_type" value="Demolition"> </label>
+                </div>
+            </section>
+            
+            <section class="section3 two">
+                <label><h2>What is the current status of this project?</h2></label>
+                <div class="container" (change)="serviceReqForm.get('status2')?.valid && this.turnAround($event,'rotateY(-270deg)')">
+                    <label for="5" (change)="serviceReqForm.get('status2')?.valid && this.turnAround($event,'rotateY(-180deg)')">Own land<i class="fa-solid fa-circle-chevron-right" ></i> <input type="radio" id="5" formControlName="status2" value="Own land"></label>
+                    <label for="6">Process of purchasing land<i class="fa-solid fa-circle-chevron-right" ></i><input type="radio" id="6" formControlName="status2" value="Purchasing land"></label>
+                    <label for="7">Looking for land<i class="fa-solid fa-circle-chevron-right" ></i><input type="radio" id="7" formControlName="status2" value="Looking for land"></label>
+                </div>
+            </section>
+
+            <section class="section2 three">
+                <label><h2>What is the current status of this project?</h2></label>
+                <div class="container" (change)="serviceReqForm.get('status1')?.valid && this.turnAround($event,'rotateY(-270deg)')">
+                    <label for="8">Planning & budget<i class="fa-solid fa-circle-chevron-right" ></i> <input type="radio" id="8" formControlName="status1" value="Planning & Budget"></label>
+                    <label for="9">Ready to Hire<i class="fa-solid fa-circle-chevron-right" ></i><input type="radio" id="9" formControlName="status1" value="Ready to hire"></label>
+                    <label for="10">Project already in progress<i class="fa-solid fa-circle-chevron-right" ></i><input type="radio" id="10" formControlName="status1" value="Project in progress"></label>
+                </div>
+            </section>
+
+            <section class="section4 four">
+                <label><h2>What is the Land Size (in sqft)?</h2></label>
+                <div class="container" (change)="serviceReqForm.get('landSize')?.valid && this.turnAround($event,'rotateX(270deg)')">
+                    <label for="11">Below 1,000 sq.ft.<i class="fa-solid fa-circle-chevron-right" ></i> <input type="radio" id="11" formControlName="landSize" value="Below 1,000 sq.ft"></label>
+                    <label for="12">1,000 - 10,000 sq.ft.<i class="fa-solid fa-circle-chevron-right" ></i><input type="radio" id="12" formControlName="landSize" value="1,000 - 10,000 sq.ft."></label>
+                    <label for="13">More than 10,000 sq.ft<i class="fa-solid fa-circle-chevron-right" ></i><input type="radio" id="13" formControlName="landSize" value="More than 10,000 sq.ft"></label>
+                </div>
+            </section>
+            <section class="section5 five">
+                <label><h2>What's your project address (Site location)</h2></label>
+                <div class="container" (change)="serviceReqForm.get('location')?.valid && this.turnAround($event,'rotateX(90deg)')">
+                    <label for="14">Chennai<i class="fa-solid fa-circle-chevron-right" ></i> <input type="radio" id="14" formControlName="location" value="Chennai"></label>
+                    <label for="15">Coimbatore<i class="fa-solid fa-circle-chevron-right" ></i><input type="radio" id="15" formControlName="location" value="Coimbatore"></label>
+                    <label for="16">Madurai<i class="fa-solid fa-circle-chevron-right" ></i><input type="radio" id="16" formControlName="location" value="Madurai"></label>
+                    <label (click)="this.toggleLoationContainer()">Select Custom Location<i class="fa-solid fa-circle-chevron-right" ></i></label>
+                </div>
+            </section> 
+            <section class="section6 six">
+                <label><h2>Fill this form and Get Quotes from Home Builders in {{serviceReqForm.get('location')?.value}}</h2></label>
+                <div class="container">
+                    <div class="inputBox">
+                        <label for="name">Name</label><br>
+                        <input type="text" id="name" formControlName="name" placeholder="eg.Baskar" autocomplete="off">
+                        <div *ngIf="serviceReqForm.get('name')?.invalid && (serviceReqForm.get('name')?.touched || serviceReqForm.get('name')?.dirty)" class="invalid-feedback">
+                            <span *ngIf="serviceReqForm.get('name')?.errors?.['required']">Name is required.</span>
+                        </div>
+                    </div>
+                    <div class="inputBox">
+                        <label for="mail">Mail</label><br>
+                        <input type="email" id="mail" formControlName="mail" placeholder="eg.xyz@gmail.com" autocomplete="off">
+                        <div *ngIf="serviceReqForm.get('mail')?.invalid && (serviceReqForm.get('mail')?.touched || serviceReqForm.get('mail')?.dirty)" class="invalid-feedback">
+                            <span *ngIf="serviceReqForm.get('mail')?.errors?.['required']">Name is required.</span>
+                            <span *ngIf="serviceReqForm.get('mail')?.errors?.['email']">Email is Invalid.</span>
+                        </div>
+                    </div>
+                    <div class="inputBox">
+                        <label for="mobile">Mobile</label><br>
+                        <input type="text" id="mobile" formControlName="mobile" placeholder="eg.1234567890" autocomplete="off">
+                        <div *ngIf="serviceReqForm.get('mobile')?.invalid && (serviceReqForm.get('mobile')?.touched || serviceReqForm.get('mobile')?.dirty)" class="invalid-feedback">
+                            <span *ngIf="serviceReqForm.get('mobile')?.errors?.['required']">Mobile number is required</span>
+                            <span *ngIf="serviceReqForm.get('mobile')?.errors?.['pattern']">Mobile must be 10 digits</span>
+                        </div>
+                    </div>
+                    <div class="btn-block">
+                        <button type="submit" class="confirm-btn-green" style="padding: 10px 20px;">Submit</button>
+                    </div>
+                </div>
+            </section> 
+    </form>
+    <div #decoratorElement2 class="decorations flex-box" >
+        <img src="assets/scroll.png" style="position: absolute; ">
+        <div class="listings" aria-live="polite">
+            <p>Selected Listings</p>
+            <p class="typewriter" *ngFor="let control of getValidControls()"><i class="fa-solid fa-caret-right"></i><span class="element">{{control.value}}</span></p>
+            <p *ngIf="getValidControls().length == 0">No items selected yet.</p>
+        </div>
+    </div>
+</div>
+
+
+<div class="btn-block" (click)="this.resetForm()"><button class="inest-btn-animation" *ngIf="this.getValidControls().length != 0"><i class="fa-solid fa-arrows-rotate"></i> Reset All</button></div>
+
+
+<!--  -->

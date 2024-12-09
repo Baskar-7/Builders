@@ -1,0 +1,111 @@
+
+    .dropdown{
+        width: 200px;
+        color: #fff;
+        margin: 0px 10px;
+        .dropdown-menu{
+            max-height: 120px;
+        }
+    }
+    section{
+        display: flex;
+        flex-direction: column;
+        min-height: 50%;
+        align-items: center;
+        justify-content: center;
+    
+        .category-list{
+            display: flex;
+            max-width: 100%;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            transition: all 0.5s ease;
+
+            button{
+                margin: 10px;
+            } 
+            
+            button[selected-blueprint = "true"]
+            {
+                background-color: #32cee1;
+                scale: 1.1;
+                box-shadow: 0 0 10px #03e9f4, 0 0 20px 0px #03e9f4, 0 0 50px #03e9f400, 0 0 100px #03e9f4;
+            }
+        }
+        .slider{
+            width: 65%;
+            max-width: 700px;
+            min-width: 300px;
+        }
+        .upload-images-btn{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            label{
+                padding: 10px;
+                border-radius: 10px;
+                border: 1px solid;
+                background-color: #4045ba;
+                border-color: #4045ba;
+                &:hover{
+                    color: #0d13c9;
+                    background-color: transparent;
+                }
+            }
+        }
+    }
+    .preview-category-window{
+        cursor: pointer;
+        position: absolute;
+        top: 10%;
+        width: 50%;
+        background: #000000;
+        padding-bottom: 20px;
+        border-radius: 20px;
+        margin: auto;
+        left: 20%;
+
+        section{
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+
+    @media screen and (max-width: 480px) {
+        .carousel-container{
+            margin: 10px;
+
+            .category-list{ 
+                button,.upload-images-btn{
+                    font-size: 8px;
+                    margin: 5px;
+                } 
+            }
+        }
+        .preview-category-window{
+            width: 80%;
+            left: 10%;
+            border-radius: 5px;
+            margin: auto; 
+
+            section{
+                font-size: 10px; 
+                margin: 5px; 
+                .dropdown{
+                    font-size: 8px;
+                    width: 100%;
+                    select{
+                      padding: 5px;
+                    }
+                }
+                button{
+                    font-size: 8px;
+                    padding:8px 15px;
+                }
+            }
+        }
+    }
