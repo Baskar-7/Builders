@@ -1,0 +1,27 @@
+
+<ServletAPI>
+	<ServletAPIMapping URL_PATH="api/json/action/authenticateUser" CLASS_NAME="constructions.ActionHandler" METHOD_NAME="authenticateUser" API_TYPE="public"/>
+	<ServletAPIMapping URL_PATH="api/json/action/sendOTP" CLASS_NAME="constructions.ActionHandler" METHOD_NAME="sendOTP" API_TYPE="public"/>
+	<ServletAPIMapping URL_PATH="api/json/action/updateProfilePic" CLASS_NAME="constructions.ActionHandler" METHOD_NAME="updateProfilePic" API_TYPE="protected"/>
+	<ServletAPIMapping URL_PATH="api/json/action/getUserInfo" CLASS_NAME="constructions.ActionHandler" METHOD_NAME="getUserInfo" API_TYPE="public"/>
+	<ServletAPIMapping URL_PATH="api/json/action/checkAndUpdateUser" CLASS_NAME="constructions.ActionHandler" METHOD_NAME="checkAndUpdateUser" API_TYPE="public"/>
+	<ServletAPIMapping URL_PATH="api/json/action/verifyCredentials" CLASS_NAME="constructions.ActionHandler" METHOD_NAME="verifyCredentials" API_TYPE="public"/>
+	<ServletAPIMapping URL_PATH="api/json/action/updateUserDetails" CLASS_NAME="constructions.ActionHandler" METHOD_NAME="updateUserDetails" API_TYPE="protected"/>
+	<ServletAPIMapping URL_PATH="api/json/action/getAllAmenities" CLASS_NAME="constructions.ActionHandler" METHOD_NAME="getAllAmenities" API_TYPE="public"/>
+	<ServletAPIMapping URL_PATH="api/json/action/addNewProject" CLASS_NAME="constructions.ActionHandler" METHOD_NAME="addNewProject" API_TYPE="protected"/>
+	<ServletAPIMapping URL_PATH="api/json/action/getProjects" CLASS_NAME="constructions.ActionHandler" METHOD_NAME="getProjects" API_TYPE="public"/>
+	<ServletAPIMapping URL_PATH="api/json/action/getProjectDetails" CLASS_NAME="constructions.ActionHandler" METHOD_NAME="getProjectDetails" API_TYPE="public"/>
+	<ServletAPIMapping URL_PATH="api/json/action/addNewEnquiry" CLASS_NAME="constructions.ActionHandler" METHOD_NAME="addNewEnquiry" API_TYPE="public"/>
+	<ServletAPIMapping URL_PATH="api/json/action/addReview" CLASS_NAME="constructions.ActionHandler" METHOD_NAME="addReview" API_TYPE="public"/>
+	<ServletAPIMapping URL_PATH="api/json/action/getAllReviews" CLASS_NAME="constructions.ActionHandler" METHOD_NAME="getAllReviews" API_TYPE="public"/>
+	<ServletAPIMapping URL_PATH="api/json/action/addNewCallBackReq" CLASS_NAME="constructions.ActionHandler" METHOD_NAME="addNewCallBackReq" API_TYPE="public"/>
+	<ServletAPIMapping URL_PATH="api/json/action/addServiceReq" CLASS_NAME="constructions.ActionHandler" METHOD_NAME="addServiceReq" API_TYPE="public"/>
+	<ServletAPIMapping URL_PATH="api/json/action/getCategories" CLASS_NAME="constructions.ActionHandler" METHOD_NAME="getCategories" API_TYPE="public"/>
+	<ServletAPIMapping URL_PATH="api/json/action/getUserRequests" CLASS_NAME="constructions.ActionHandler" METHOD_NAME="getUserRequests" API_TYPE="protected"/> 
+	<ServletAPIMapping URL_PATH="api/json/action/deleteProject" CLASS_NAME="constructions.ActionHandler" METHOD_NAME="deleteProject" API_TYPE="protected"/>
+	<ServletAPIMapping URL_PATH="api/json/action/deleteRequests" CLASS_NAME="constructions.ActionHandler" METHOD_NAME="deleteRequests" API_TYPE="protected"/>
+	<ServletAPIMapping URL_PATH="api/json/action/deleteReview" CLASS_NAME="constructions.ActionHandler" METHOD_NAME="deleteReview" API_TYPE="protected"/>
+	<ServletAPIMapping URL_PATH="api/json/action/toggleRequestStatus" CLASS_NAME="constructions.ActionHandler" METHOD_NAME="toggleRequestStatus" API_TYPE="protected"/>
+	
+</ServletAPI>
+

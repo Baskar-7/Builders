@@ -1,0 +1,39 @@
+
+<web-app>  
+	
+	<servlet>
+		<servlet-name>ServletAPI</servlet-name>
+		<servlet-class>servletApi.ServletAPIAction</servlet-class>
+		 <multipart-config>
+			<max-file-size>10485760</max-file-size> <!-- 10 MB -->
+			<max-request-size>52428800</max-request-size> <!-- 50 MB -->
+			<file-size-threshold>102400</file-size-threshold> <!-- 100 KB -->
+		</multipart-config>
+	</servlet>
+	
+	<session-config>
+		<session-timeout>30</session-timeout> <!-- 30 minutes -->
+	</session-config>
+  	
+	<servlet-mapping>
+		<servlet-name>ServletAPI</servlet-name>
+		<url-pattern>/api/*</url-pattern>
+	</servlet-mapping>
+	
+	<filter>
+		<filter-name>JwtFilter</filter-name>
+		<filter-class>filter.JwtSessionManagementFilter</filter-class> 
+		<dispatcher>REQUEST</dispatcher>
+	</filter>
+	<filter-mapping>
+	     <filter-name>JwtFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	
+	<listener>
+		<listener-class>listener.ConfigListener</listener-class>
+	</listener>
+
+
+  	  
+</web-app> 

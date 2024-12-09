@@ -1,0 +1,167 @@
+
+<database>
+
+	<table name="otp">
+        <column name="mail" type="varchar(100)" primaryKey="true" />
+        <column name="oneTimePassword" type="varchar(4)" />
+        <column name="validity" type="varchar(25)" />
+    </table>
+	
+	<table name="actions">
+		<column name="action_id" type="serial" primaryKey="true" />
+		<column name="action" type="varchar(500)" />
+	</table>
+	
+	<table name="roles">
+		<column name="role_id" type="serial" primaryKey="true" />
+		<column name="role" type="varchar(500)" />
+	</table>
+	
+	<table name="role_actions">
+		<column name="role_action_id" type="serial" primaryKey="true" />
+		<column name="role_id" type="int" foreignKey="true" references="roles(role_id)" onDelete="CASCADE"/>
+		<column name="action_id" type="int" foreignKey="true" references="actions(action_id)" onDelete="CASCADE"/>
+	</table>
+	
+	<table name="images">
+		<column name="image_id" type="serial" primaryKey="true"/>
+		<column name="image" type="bytea" />
+	</table>
+	
+    <table name="accounts">
+	    <column name="account_id" type="serial" primaryKey="true" />
+        <column name="mail" type="varchar(100)" />
+        <column name="userId" type="varchar(36)" unique="true" />
+		<column name="profile_pic_id" type="int" foreignKey="true" references="images(image_id)" onDelete="CASCADE"/>
+		<column name="fname" type="varchar(100)" />
+		<column name="lname" type="varchar(100)" />
+        <column name="mobile" type="varchar(10)" />
+        <column name="address" type="varchar(1000)" />
+        <column name="pincode" type="varchar(6)" />
+		<column name="city" type="varchar(100)" />
+        <column name="state" type="varchar(100)" />
+        <column name="role_id" type="int" foreignKey="true" references="roles(role_id)" onDelete="CASCADE"/>
+		<column name="maplocation" type="varchar(200)" />
+    </table>    
+	
+	<table name="servlet_apimapping">
+        <column name="api_id" type="serial" primaryKey="true" />
+        <column name="url_path" type="varchar(100)"/>
+        <column name="class_name" type="varchar(100)"/>
+        <column name="method_name" type="varchar(100)"/>
+        <column name="api_type" type="varchar(50)"/>
+    </table>	
+	
+	<table name="categories">
+		<column name="category_id" type="serial" primaryKey="true" />
+		<column name="category_type_id" type="int" />
+		<column name="category" type="varchar(5000)" />
+	</table>
+	
+	<table name="amenities">
+        <column name="amenities_id" type="serial" primaryKey="true" />
+        <column name="amenity" type="varchar(500)"/>
+        <column name="amenity_category_id" type="int" foreignKey="true" references="categories(category_id)" onDelete="CASCADE"/>
+    </table>
+ 
+	<table name="projects">
+        <column name="project_id" type="serial" primaryKey="true" />
+		<column name="account_id" type="int" foreignKey="true" references="accounts(account_id)" onDelete="CASCADE" />
+        <column name="project_name" type="varchar(500)"/>
+        <column name="elevation_poster_id" type="int" foreignKey="true" references="images(image_id)" onDelete="CASCADE" /> 
+    </table>
+	
+	<table name="project_location_details">
+		<column name="location_details_id" type="serial" primaryKey="true"/>
+		<column name="project_id" type="int" foreignKey="true" references="projects(project_id)" onDelete="CASCADE" />
+		<column name="address" type="varchar(5000)" />
+		<column name="landmark" type="varchar(1000)" />
+		<column name="city" type="varchar(500)" />
+		<column name="state" type="varchar(500)" />
+		<column name="pincode" type="varchar(20)" />
+		<column name="latitude" type="varchar(500)" />
+		<column name="longitude" type="varchar(500)" />
+	</table>
+	
+	<table name="project_details">
+		<column name="project_details_id" type="serial" primaryKey="true" />
+		<column name="project_id" type="int" foreignKey="true" references="projects(project_id)" onDelete="CASCADE" />
+        <column name="min_price" type="BIGINT "/>
+        <column name="max_price" type="BIGINT "/>
+        <column name="min_built_area" type="BIGINT "/>
+        <column name="max_built_area" type="BIGINT "/>
+        <column name="project_type" type="varchar(500)"/>
+		<column name="status" type="varchar(500)"/>
+		<column name="total_floors" type="int"/>
+		<column name="total_blocks" type="int"/>
+		<column name="total_units" type="int"/>
+	</table>
+
+	<table name="project_amenities">
+		<column name="project_amenities_id" type="serial"/>
+		<column name="project_id" type="int" foreignKey="true" references="projects(project_id)" onDelete="CASCADE" />
+		<column name="amenity_id" type="int" foreignKey="true" references="amenities(amenities_id)" onDelete="CASCADE" />
+	</table>
+	
+	<table name="project_category">
+		<column name="project_category_id" type="serial" primaryKey="true"/>
+		<column name="category_id" type="int" foreignKey="true" references="categories(category_id)" onDelete="CASCADE" />
+		<column name="project_id" type="int" foreignKey="true" references="projects(project_id)" onDelete="CASCADE" />
+	</table>
+	
+	<table name="category_images">
+		<column name="image_id" type="int" foreignKey="true" references="images(image_id)" onDelete="CASCADE" />
+		<column name="project_category_id" type="int" foreignKey="true" references="project_category(project_category_id)" onDelete="CASCADE" />
+	</table>
+	
+	<table name="project_config">
+		<column name="config_id" type="serial" primaryKey="true" />
+		<column name="project_id" type="int" foreignKey="true" references="projects(project_id)" onDelete="CASCADE" />
+		<column name="bhk" type="varchar(500)" />
+		<column name="unit_type" type="varchar(500)" />
+		<column name="built_area1" type="varchar(500)" />
+		<column name="built_area2" type="varchar(500)" />
+		<column name="sqft_price" type="varchar(500)" />
+		<column name="price_range1" type="varchar(500)" />
+		<column name="price_range2" type="varchar(500)" />
+	</table>
+	
+	<table name="customer_details">
+		<column name="customer_id" type="serial" primaryKey="true" />
+		<column name="name" type="varchar(500)" />
+		<column name="mobile" type="varchar(20)" />
+		<column name="mail" type="varchar(500)" />
+	</table>
+	
+	<table name="call_back_req">
+		<column name="call_back_req_id" type="serial" primaryKey="true" />
+		<column name="customer_id" type="int" foreignKey="true" references="customer_details(customer_id)" onDelete="CASCADE" />
+		<column name="preferred_time" type="varchar(100)" />
+		<column name="request_status" type="BOOLEAN" />
+	</table>
+	
+	<table name="enquiry_req">
+		<column name="enquiry_req_id" type="serial" primaryKey="true"/>
+		<column name="project_id" type="int" foreignKey="true" references="projects(project_id)" onDelete="CASCADE" />
+		<column name="customer_id" type="int" foreignKey="true" references="customer_details(customer_id)" onDelete="CASCADE" />
+		<column name="request_status" type="BOOLEAN" />
+	</table>
+	
+	<table name="reviews">
+		<column name="review_id" type="serial" primaryKey="true"/>
+		<column name="author" type="varchar(500)" />
+		<column name="quote" type="varchar(5000)" />
+		<column name="reviewerPic" type="BYTEA" />
+	</table>
+	
+	<table name="service_req">
+		<column name="service_id" type="serial" primaryKey="true"/>
+		<column name="customer_id" type="int" foreignKey="true" references="customer_details(customer_id)" onDelete="CASCADE" />
+		<column name="service_type" type="varchar(500)" />
+		<column name="status" type="varchar(500)"/>
+		<column name="landsize" type="varchar(500)" />
+		<column name="location" type="varchar(500)" />
+		<column name="request_status" type="varchar(200)" />
+	</table> 
+	
+</database>
