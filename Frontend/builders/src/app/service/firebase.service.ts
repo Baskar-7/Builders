@@ -97,8 +97,7 @@ export class FirebaseService {
       name: user?.displayName,
       photoURL: user?.photoURL,
       phoneNumber: user?.phoneNumber,
-      email: user?.email,
-      uid: user?.uid,
+      email: user?.email, 
     };
   
     try {

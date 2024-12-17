@@ -78,6 +78,8 @@ export class LoginModuleComponent implements OnInit {
 
       if(jsonData.status ===  "success")
       {
+        jsonData.hasOwnProperty("jwtToken") && this.cookies.setItem("jwtToken",jsonData.jwtToken);
+        this.firebaseService.updateUserInfo({})
         this.toggleContainer('login-container','slidetoTop');
       }
        this.updateStatusMessage(jsonData)
