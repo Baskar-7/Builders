@@ -149,12 +149,12 @@ public class ActionHandler extends Util
 			JSONObject params = new JSONObject(convertToJsonParams(request));
 			
 			String name = params.getString("name"),
-			       mail = params.getString("mail"),
-				   user_id=params.getString("user_id");
+			    mail = params.getString("mail"),
+				user_id=params.getString("user_id");
 
-			if(ViewHandler.isValidUser(mail) == null)
+			if(ViewHandler.getUserInfo(mail).getString("status").equals("error"))
 			{
-				 user_id = UpdateHandler.addUser(name,mail,"",user_id,2);
+				user_id = UpdateHandler.addUser(name,mail,"",user_id,2);
 				 
 				 if(user_id.equals("error"))
 				 {
@@ -166,6 +166,26 @@ public class ActionHandler extends Util
 			{
 				status="success";
 				message="Login Successfully...";
+				HttpSession session = request.getSession(false);
+				if(session == null)
+				{
+					user_id = ViewHandler.getUserId(mail);
+					JSONObject userInfo = ViewHandler.getUserInfo(mail);
+					if(user_id!=null && userInfo.getString("status").equals("success"))
+					{
+						name = userInfo.getString("fname");
+						String photoURL = userInfo.getString("profile_pic");
+						int account_id = userInfo.getInt("account_id"),
+						    role_id = userInfo.getInt("role_id");
+						
+						String jwtToken = Util.generateToken(user_id,account_id,mail,role_id);
+						result.put("jwtToken",jwtToken);	
+					}
+					else{
+						status="error";
+						message="Login failed..Please try again later!..";
+					}
+				}
 			}
 		}
 		catch(Exception e)

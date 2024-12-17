@@ -93,12 +93,35 @@ public class ViewHandler extends Util
 		return user_id;
 	}
 	
+	public static String getUserId(String mail)throws Exception
+	{
+		String userId = null;
+		try
+		{
+			String query = "select userId from accounts where mail = ?";
+			Connection con = Database.getConnection();
+			PreparedStatement pstmt = con.prepareStatement(query);
+			pstmt.setString(1,mail);
+			ResultSet rs = pstmt.executeQuery();
+			
+			if(rs.next())
+			{
+				userId = rs.getString("userId");
+			}
+		}
+		catch(Exception e)
+		{
+			logg.log(Level.INFO,"Exception occurred while fetching user id: ",e);
+		}
+		return userId;
+	}
+	
 	public static JSONObject getUserInfo(String mail)throws Exception
 	{
 		JSONObject userInfo=new JSONObject();
 		String status="error",message="User Information unavailable!!..";
 		try{
-			if(!mail.isEmpty())
+			if(!mail.isEmpty() && (ViewHandler.isValidUser(mail) != null))
 			{
 				String query = "select DISTINCT a.account_id,a.mail,a.fname,a.lname,a.address,a.pincode,a.mobile,a.city,a.state,a.role_id, a.maplocation,a.profile_pic_id,i.image as profile_pic,r.role from accounts a left join role_actions ra on ra.role_id = a.role_id left join roles r on r.role_id = ra.role_id left join images i on i.image_id = a.profile_pic_id where mail = ?;";
 				Connection con=Database.getConnection();
