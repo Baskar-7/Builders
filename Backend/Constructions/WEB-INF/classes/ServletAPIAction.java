@@ -22,7 +22,6 @@ public class ServletAPIAction extends HttpServlet {
 	/*   api/json/[moduleName]/[methodName]  */
 	private void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try { 
-		    response.setHeader("Access-Control-Allow-Credentials", "true");
 			request.setCharacterEncoding("UTF-8");
 			int errCode = ServletAPIController.getInstance().execute(request, response);
 			if (errCode != 200) {

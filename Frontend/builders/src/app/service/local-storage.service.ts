@@ -11,7 +11,7 @@ export class LocalStorageService {
   {
     const item = {
       value : JSON.stringify(values),
-      expiry : (new Date().getTime()) + ttl * 86400000
+      expiry : ttl == -1 ? -1 : (new Date().getTime()) + ttl * 86400000
     }
     localStorage.setItem(key,JSON.stringify(item));
   }
@@ -21,8 +21,8 @@ export class LocalStorageService {
     if(!itemStr)
       return null
 
-    var item = JSON.parse(itemStr)
-    if(item.expiry < new Date().getTime())
+    var item = JSON.parse(itemStr); 
+    if(item.expiry != -1 && item.expiry < new Date().getTime())
     {
       localStorage.removeItem(key);
       return null;

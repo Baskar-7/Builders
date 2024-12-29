@@ -110,18 +110,17 @@ export class ProjectDetailsComponent implements OnInit{
   initMap()
   {
     const latitude = parseFloat(this.project_details.latitude),longitude = parseFloat(this.project_details.longitude)
-    const mapOptions: google.maps.MapOptions = {
+    const map = new google.maps.Map(document.getElementById("gmap") as HTMLElement,  {
+      mapId: "DEMO_MAP_ID", // Map ID is required for advanced markers.
         center: { lat: latitude, lng: longitude }, 
         zoom: 16,
         gestureHandling: 'cooperative',
         mapTypeId: google.maps.MapTypeId.ROADMAP, 
         streetViewControl: true, 
         fullscreenControl: true,
-      }; 
-      var ele = document.getElementById('gmap') as HTMLElement; 
-      const map = new google.maps.Map(ele, mapOptions);
+      });  
 
-    const marker = new google.maps.Marker({
+    const marker =  new google.maps.marker.AdvancedMarkerElement({
       position: { lat: latitude, lng: longitude },
       map: map,
       title: 'Project Location',

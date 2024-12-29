@@ -604,7 +604,7 @@ public class ActionHandler extends Util
 				   mobile = Long.toString(params.getLong("mobile")),
 				   landSize = params.getString("landSize"),
 				   serviceType = params.getString("service_type"),
-			       status = params.getString("status1")+" & "+params.getString("status2"),
+			       status = params.getString("status1")+ (params.getString("status2").equals("empty") ? "" : " & "+params.getString("status2")),
 				   location = params.getString("location");
 				   
 			result = UpdateHandler.addNewServiceReq(name,mail,mobile,serviceType,status,landSize,location);

@@ -48,7 +48,6 @@ export class HomeComponent implements OnInit,OnDestroy{
   constructor(public firebaseService: FirebaseService,public utils: UtilsService,private fb:FormBuilder,private AjaxUtil: AjaxUtilService,private cdr: ChangeDetectorRef,private pipeRef: MultiConditionPipe){}
 
   async ngOnInit(){
-    Observer.getAll().forEach(observer => observer.enable());
     this.callBackForm = this.fb.group({
       name : ['',Validators.required],
       mail : ['',[Validators.required,Validators.email]],
@@ -82,20 +81,21 @@ export class HomeComponent implements OnInit,OnDestroy{
    }
 
   initMap(latitude:number = 13.0843  ,longitude : number = 80.2705,locationDetials :any)
-  {   
+  { 
        (!latitude || !longitude) && (latitude = 13.0843 , longitude = 80.2705) 
-      const mapOptions: google.maps.MapOptions = {
+      const map = new google.maps.Map(document.getElementById("gmap") as HTMLElement,  {
+        mapId: "DEMO_MAP_ID", // Map ID is required for advanced markers.
         center: { lat: latitude, lng: longitude }, 
-        zoom: 10,
-        gestureHandling: 'cooperative',
+        zoom: 100, 
+        zoomControl: false,  
+        scrollwheel: false,  
+        gestureHandling: "none", 
         mapTypeId: google.maps.MapTypeId.ROADMAP, 
         streetViewControl: true, 
         fullscreenControl: false,
-      }; 
-      var ele = document.getElementById('gmap') as HTMLElement; 
-      const map = new google.maps.Map(ele, mapOptions);
+      });  
 
-    const marker = new google.maps.Marker({
+    const marker =  new google.maps.marker.AdvancedMarkerElement({
       position: { lat: latitude, lng: longitude },
       map: map,
       title: 'Project Location',
@@ -212,7 +212,7 @@ export class HomeComponent implements OnInit,OnDestroy{
       let fromTop = direction === -1,
           dFactor = fromTop ? -1 : 1;
 
-      let tl = gsap.timeline({defaults: { duration: 1.25, ease: "power1.inOut" },onComplete: () =>{ this.animating = false;}});
+      let tl = gsap.timeline({defaults: { duration: 0.75, ease: "power1.inOut" },onComplete: () =>{ this.animating = false;}});
 
       if (current_index >= 0 && current_index != index) {
         gsap.set(sections[current_index], { zIndex: 0 });
@@ -229,7 +229,7 @@ export class HomeComponent implements OnInit,OnDestroy{
     };
 
     Observer.create({
-      type: "wheel,touch,pointer",
+      type: "wheel",
       wheelSpeed: -1,
       onDown: (event) => !this.animating && this.canScroll(event,-1) && this.gotoSection(this.utils.currentIndex - 1, -1),
       onUp: (event) => !this.animating && this.canScroll(event,1) && this.gotoSection(this.utils.currentIndex + 1, 1),

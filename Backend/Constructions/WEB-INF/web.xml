@@ -12,7 +12,7 @@
 	</servlet>
 	
 	<session-config>
-		<session-timeout>30</session-timeout> <!-- 30 minutes -->
+		<session-timeout>144</session-timeout> <!-- 30 minutes -->
 	</session-config>
   	
 	<servlet-mapping>

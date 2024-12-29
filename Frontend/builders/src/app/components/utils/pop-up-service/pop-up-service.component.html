@@ -77,9 +77,9 @@
                 <textarea id="review_quote"  placeholder="Write your review here..." formControlName="quote" rows="4" cols="50"> </textarea>
                 <div *ngIf="formGroup.get('quote')?.invalid && (formGroup.get('quote')?.touched || formGroup.get('quote')?.dirty)" class="invalid-feedback">
                     <span *ngIf="formGroup.get('quote')?.errors?.['minWords']"> 
-                        Minimum {{ formGroup.get('quote')?.errors?.['minWords']?.['required'] }} words required. 
-                        Maximum {{ formGroup.get('quote')?.errors?.['maxWords']?.['required'] }} words limit.
-                        Current: {{formGroup.get('quote')?.errors?.['minWords']?.['actual'] }} words.
+                        Minimum {{ formGroup.get('quote')?.errors?.['minWords']?.['required'] }} characters required. 
+                        Maximum {{ formGroup.get('quote')?.errors?.['maxWords']?.['required'] }} characters limit.
+                        Current: {{formGroup.get('quote')?.errors?.['minWords']?.['actual'] }} characters.
                     </span>
                 </div>
             </div>

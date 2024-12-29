@@ -46,7 +46,8 @@ export class FirebaseService {
   private checkAuthState() {
     onAuthStateChanged(this.auth, (user) => {
       this._isAuthenticated = false; 
-      if (user) {
+      var token = this.cookies.getItem("jwtToken")
+      if (token && user) {
         this.updateUserInfo(user);
         return user;
       }

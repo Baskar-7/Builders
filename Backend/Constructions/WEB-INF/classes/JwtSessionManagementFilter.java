@@ -57,6 +57,8 @@ public class JwtSessionManagementFilter implements Filter {
 				chain.doFilter(req, res);
 				return;
 			}
+			res.setHeader("Access-Control-Allow-Origin", "http://localhost:4200");
+			res.setHeader("Access-Control-Allow-Credentials", "true");
 			
 			HttpSession session = req.getSession(false);			
 			String urlPath = (req.getRequestURI()).replaceFirst("/Constructions/api/json/action/", "");

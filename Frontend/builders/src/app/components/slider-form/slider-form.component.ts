@@ -34,12 +34,12 @@ export class SliderFormComponent implements OnInit{
     this.serviceReqForm = this.fb.group({
       service_type : ['',Validators.required],
       status1 : ['',Validators.required],
-      status2 : ['',Validators.required],
-      landSize    : ['',Validators.required],
+      landSize: ['',Validators.required],
       location : ['',Validators.required],
       name : ['',Validators.required],
       mail : ['',[Validators.required,Validators.email]],
-      mobile : ['',[Validators.required,Validators.pattern(/^\d{10}$/)]]
+      mobile : ['',[Validators.required,Validators.pattern(/^\d{10}$/)]],
+      status2 : ['']
     })
  
   }
@@ -58,13 +58,10 @@ export class SliderFormComponent implements OnInit{
   applyAnimations(event: MouseEvent ){  
     const mouseX = event.clientX;
     const mouseY = event.clientY; 
-    const tl = gsap.timeline({
-      
-    });
-      gsap.to([this.decoratorElement1.nativeElement,this.decoratorElement2.nativeElement], {
-        // x: -(mouseX - window.innerWidth / 2 )*  0.009,
+      gsap.to(this.decoratorElement1.nativeElement, {
+        x: -(mouseX - window.innerWidth / 2 )*  0.009,
         y: -(mouseY - window.innerHeight / 2 ) * 0.009, 
-        ease: 'power3.out',
+        ease: 'power2.out',
         duration: 1 
       });
   }
@@ -113,16 +110,24 @@ export class SliderFormComponent implements OnInit{
   addNewServiceReq(event : Event)
   {
     event.preventDefault();
-    this.isloading = true;
-     this.AjaxUtil.ajax("api/json/action/addServiceReq",this.serviceReqForm.value).subscribe((jsonData)=>{
-      this.isloading = false;
-      if(jsonData.status === "success")
-      {
-        this.resetForm();
-        this.toggleAnimations(true)
-      }
-      this.updateStatusMessage(jsonData)
-     })
+    if(this.serviceReqForm.valid)
+    {
+      this.isloading = true;
+      this.AjaxUtil.ajax("api/json/action/addServiceReq",this.serviceReqForm.value).subscribe((jsonData)=>{
+        this.isloading = false;
+        if(jsonData.status === "success")
+        {
+          this.resetForm();
+          this.toggleAnimations(true)
+        }
+        this.updateStatusMessage(jsonData)
+      })
+    }
+    else{
+      this.serviceReqForm.get("name")?.markAsTouched();
+      this.serviceReqForm.get("mobile")?.markAsTouched();
+      this.serviceReqForm.get("mail")?.markAsTouched();
+    }
   }
  
 }

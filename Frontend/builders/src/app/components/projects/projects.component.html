@@ -36,7 +36,7 @@
         <ng-container *ngFor="let project of project_details.projects">
           <div class="project">
             <section class="banner">
-              <img alt={{project.project_name}} src="data:image/png;base64,{{project.elevation_poster}}" loading="lazy" alt="Lazy Loaded Image">
+              <img alt={{project.project_name}}  loading="lazy" src="data:image/png;base64,{{project.elevation_poster}}" loading="lazy" alt="Lazy Loaded Image">
             </section>
             <section class="details">
               <h4>{{project.project_name}}</h4>
@@ -90,6 +90,7 @@
           <li class="flex-box" [ngClass]="{'selected': project_details.filters.priceRange.includes('Below 10L')}">Below 10L</li>
           <li class="flex-box" [ngClass]="{'selected': project_details.filters.priceRange.includes('10L - 50L')}">10L - 50L</li>
           <li class="flex-box" [ngClass]="{'selected': project_details.filters.priceRange.includes('50L - 1Cr')}">50L - 1Cr</li>
+          <li class="flex-box" [ngClass]="{'selected': project_details.filters.priceRange.includes('Upto 1Cr')}">Upto 1Cr</li>
           <li class="flex-box" [ngClass]="{'selected': project_details.filters.priceRange.includes('1Cr - 10Cr')}">1Cr - 10Cr</li> 
           <li class="flex-box" [ngClass]="{'selected': project_details.filters.priceRange.includes('10Cr & above')}">10Cr & above</li> 
         </ul>

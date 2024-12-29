@@ -219,17 +219,27 @@ public class Util
         List<Map<String, Long>> ranges = new ArrayList<>();
 
 		try{
-			for (int i = 0; i <priceLabels.length();i++) {
-				String label = (String)priceLabels.get(i);
+			for (int i = 0; i <priceLabels.length();i++) 
+			{
+				String label = (String) priceLabels.get(i); // Example: "10L - 50L", "Below 10L", "10Cr & above"
 				Map<String, Long> range = new HashMap<>();
-				String cleanedLabel = label.replaceAll("[^0-9\\-]", ""); 
-				String[] bounds = cleanedLabel.split("-");
 
-				long min = bounds.length > 0 ? Long.parseLong(bounds[0]) * 100000 : 0;
-				long max = bounds.length > 1 ? Long.parseLong(bounds[1]) * 100000 : Long.MAX_VALUE;
+				if (label.toLowerCase().contains("below") || label.toLowerCase().contains("upto")) { 
+					long max = parseValue(label.replace("Below", "").replace("Upto", "").trim());
+					range.put("min", 0L); 
+					range.put("max", max);
+				} else if (label.toLowerCase().contains("above")) { 
+					long min = parseValue(label.replace("above", "").replace("&", "").trim());
+					range.put("min", min);
+					range.put("max", Long.MAX_VALUE);  
+				} else {
+					String[] parts = label.split("-");
+					long min = parts.length > 0 ? parseValue(parts[0].trim()) : 0L;
+					long max = parts.length > 1 ? parseValue(parts[1].trim()) : Long.MAX_VALUE;
+					range.put("min", min);
+					range.put("max", max);
+				}
 
-				range.put("min", min);
-				range.put("max", max);
 				ranges.add(range);
 			}
 		}
@@ -240,6 +250,20 @@ public class Util
 
         return ranges;
     }
+	 
+	private long parseValue(String value) {
+		value = value.toLowerCase();  
+		long factor = 1; 
+
+		if (value.contains("cr")) {
+			factor = 10000000; // 1 Crore = 10,000,000
+		} else if (value.contains("l")) {
+			factor = 100000; // 1 Lakh = 100,000
+		}
+ 
+		String numericPart = value.replaceAll("[^0-9]", ""); 
+		return numericPart.isEmpty() ? 0 : Long.parseLong(numericPart) * factor;
+	}
 	
 	
 	public static String getStringProperty(Properties props, String key) {
