@@ -20,6 +20,7 @@ import { FormBuilder, FormGroup, Validators,ReactiveFormsModule} from '@angular/
 
 import { GoogleMapsModule } from '@angular/google-maps';
 import { gsap } from 'gsap';
+import $ from 'jquery';
 gsap.registerPlugin(Observer);
 
 

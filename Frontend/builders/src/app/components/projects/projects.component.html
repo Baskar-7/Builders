@@ -35,7 +35,7 @@
       <div id="projects" class="projects scroll-bar">
         <ng-container *ngFor="let project of project_details.projects">
           <div class="project">
-            <section class="banner">
+            <section class="banner" routerLink="/project-details" [queryParams]="{ projectId: project.project_id}">
               <img alt={{project.project_name}}  loading="lazy" src="data:image/png;base64,{{project.elevation_poster}}" loading="lazy" alt="Lazy Loaded Image">
             </section>
             <section class="details">

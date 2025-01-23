@@ -105,14 +105,17 @@
         <img src="assets/scroll.png" style="position: absolute; ">
         <div class="listings" aria-live="polite">
             <p>Selected Listings</p>
-            <p class="typewriter" *ngFor="let control of getValidControls()"><i class="fa-solid fa-caret-right"></i><span class="element">{{control.value}}</span></p>
-            <p *ngIf="getValidControls().length == 0">No items selected yet.</p>
+            <p class="typewriter" *ngFor="let control of getValidRequiredControls()">
+                <i class="fa-solid fa-caret-right"></i>
+                <span class="element">{{ control.value }}</span>
+            </p>
+            <p *ngIf="getValidRequiredControls().length == 0">No items selected yet.</p>
         </div>
     </div>
 </div>
 
 
-<div class="btn-block" (click)="this.resetForm()"><button class="inest-btn-animation" *ngIf="this.getValidControls().length != 0"><i class="fa-solid fa-arrows-rotate"></i> Reset All</button></div>
+<div class="btn-block" style="margin: 10px;" (click)="this.resetForm()"><button class="inest-btn-animation" *ngIf="this.getValidControls().length != 0"><i class="fa-solid fa-arrows-rotate"></i> Reset All</button></div>
 
 
 <!--  -->

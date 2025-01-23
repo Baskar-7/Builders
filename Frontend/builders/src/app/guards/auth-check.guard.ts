@@ -4,10 +4,13 @@ import { FirebaseService } from '../service/firebase.service';
 
 export const authCheckGuard: CanActivateFn = (route, state) => {
 
-  const firbaseService = inject(FirebaseService);
-  if(firbaseService.isAuthenticated)
-  {
+  const firbaseService = inject(FirebaseService); 
+  const router = inject(Router);
+
+  if (firbaseService.isAuthenticated) { 
     return true;
+  } else { 
+    router.navigate(['/']);  
+    return false;
   }
- return true; 
 };

@@ -42,6 +42,7 @@
         <div  *ngIf="this.localStorage.location_details?.locations?.length > 0; else emptyBlock" class="container scroll-bar">
             <div class="locations  scroll-bar">
                 <ul> 
+                    <li (click)="handleAction('changeLocation','All')">All Locations</li>
                     <li *ngFor="let location of this.localStorage.location_details.locations" (click)="handleAction('changeLocation',location.district)" (click)="this.closeWindow()">
                        {{location.district}}
                     </li>

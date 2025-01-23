@@ -129,5 +129,11 @@ export class SliderFormComponent implements OnInit{
       this.serviceReqForm.get("mail")?.markAsTouched();
     }
   }
+
+  getValidRequiredControls() {
+    return Object.values(this.serviceReqForm.controls).filter(
+      (control) => control.valid && control.hasValidator(Validators.required)
+    );
+  }
  
 }
