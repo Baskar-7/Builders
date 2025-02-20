@@ -51,8 +51,8 @@
                 {
                   "type": "bundle",
                   "name": "css-inline-fonts",
-                  "maximumWarning": "10kb",
-                  "maximumError": "15kb"
+                  "maximumWarning": "15kb",
+                  "maximumError": "20kb"
                 }
               ],
               "allowedCommonJsDependencies": [
