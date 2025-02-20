@@ -40,14 +40,25 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
-                },
+                  "maximumWarning": "1.5mb",
+                  "maximumError": "2mb"
+                }, 
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "8kb",
+                  "maximumError": "10kb"
+                },
+                {
+                  "type": "bundle",
+                  "name": "css-inline-fonts",
+                  "maximumWarning": "10kb",
+                  "maximumError": "15kb"
                 }
+              ],
+              "allowedCommonJsDependencies": [
+                "jquery",
+                "sweetalert2",
+                "intl-tel-input"
               ],
               "outputHashing": "all"
             },
